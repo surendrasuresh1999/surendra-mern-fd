@@ -5,7 +5,7 @@ import Footer from '../Common/Footer'
 
 const CommonPage = () => {
   return (
-    <div className="relative">
+    <div className="relative eshop-home-container">
       <Navbar />
       <main className="container mx-auto bg-white px-4 py-6 lg:px-8">
         <Outlet />

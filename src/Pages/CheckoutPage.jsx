@@ -110,7 +110,7 @@ const CheckoutPage = () => {
                 </div>
               </dl>
 
-              <Popover className="fixed z-[] inset-x-0 bottom-0 flex flex-col-reverse text-sm font-medium text-gray-900 lg:hidden">
+              <Popover className="fixed z-40 inset-x-0 bottom-0 flex flex-col-reverse text-sm font-medium text-gray-900 lg:hidden">
                 <div className="relative z-10 border-t border-gray-200 bg-gray-100 px-4 sm:px-6">
                   <div className="mx-auto max-w-lg">
                     <Popover.Button className="flex w-full items-center py-6 font-medium">
