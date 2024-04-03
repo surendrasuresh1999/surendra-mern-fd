@@ -1,11 +1,11 @@
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, Trash2 } from "lucide-react";
 import React from "react";
 const accounts = [
   { id: "checking", name: "Checking", description: "CIBC ••••6610" },
   { id: "savings", name: "Savings", description: "Bank of America ••••0149" },
   { id: "mastercard", name: "Mastercard", description: "Capital One ••••7877" },
 ];
-const AddressCard = ({setOpenAddressModal}) => {
+const AddressCard = ({ setOpenAddressModal }) => {
   return (
     <div className="pb-20 pt-6 sm:pb-6 space-y-3">
       <div>
@@ -15,7 +15,10 @@ const AddressCard = ({setOpenAddressModal}) => {
         <p className="mt-1 text-sm text-gray-500">
           Choose your shipping address from the list of address.
         </p>
-        <button onClick={()=>setOpenAddressModal(true)} className="flex mt-3 items-center gap-2 outline-none px-6 py-2 bg-indigo-600 hover:bg-indigo-400 text-white font-medium text-mediumSize rounded-md">
+        <button
+          onClick={() => setOpenAddressModal(true)}
+          className="flex mt-3 items-center gap-2 outline-none px-6 py-2 bg-indigo-600 hover:bg-indigo-400 text-white font-medium text-mediumSize rounded-md"
+        >
           <PlusCircle />
           Add new address
         </button>
@@ -45,7 +48,7 @@ const AddressCard = ({setOpenAddressModal}) => {
                   Delivery Here
                 </button>
               </div>
-              <div className="ml-3 flex h-6 items-center">
+              <div className="ml-3 flex items-center gap-4">
                 <input
                   id={`account-${account.id}`}
                   aria-describedby={`account-${account.id}-description`}
@@ -54,6 +57,9 @@ const AddressCard = ({setOpenAddressModal}) => {
                   defaultChecked={account.id === "checking"}
                   className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                 />
+                <button>
+                  <Trash2 color="#ee6d6d" />
+                </button>
               </div>
             </div>
           ))}
