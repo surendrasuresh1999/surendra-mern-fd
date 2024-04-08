@@ -38,4 +38,61 @@ export const indianStatesArray = [
   "West Bengal",
 ];
 
-export const sizesObj = ["XXS", "XS", "S", "M", "LG", "XL", "XXL", "2XL", "3XL"];
+export const sizesObj = [
+  "XXS",
+  "XS",
+  "S",
+  "M",
+  "LG",
+  "XL",
+  "XXL",
+  "2XL",
+  "3XL",
+];
+
+const sizeChartData = [
+  {
+    Size: "S",
+    Chest: 38,
+    "Brand Size": "S",
+    Shoulder: 17.5,
+    Length: 27.5,
+    "Sleeve Length": 24,
+    Neck: 16.5,
+  },
+  {
+    Size: "M",
+    Chest: 40,
+    "Brand Size": "M",
+    Shoulder: 18,
+    Length: 28,
+    "Sleeve Length": 24,
+    Neck: 17,
+  },
+  {
+    Size: "L",
+    Chest: 42,
+    "Brand Size": "L",
+    Shoulder: 18.5,
+    Length: 29,
+    "Sleeve Length": 25,
+    Neck: 17,
+  },
+  {
+    Size: "XL",
+    Chest: 44,
+    "Brand Size": "XL",
+    Shoulder: 19,
+    Length: 30,
+    "Sleeve Length": 25,
+    Neck: 17,
+  },
+  {
+    Size: "XXL",
+    Chest: 46,
+    "Brand Size": "XXL",
+    Shoulder: 19.5,
+    Length: 30.75,
+    "Sleeve Length": 25,
+  },
+];
