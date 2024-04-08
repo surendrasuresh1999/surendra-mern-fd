@@ -5,7 +5,6 @@ import {
   ShoppingBagIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-
 import { CircleUserRound } from "lucide-react";
 import { Link } from "react-router-dom";
 const navigation = {
@@ -389,7 +388,7 @@ const Navbar = () => {
         </Dialog>
       </Transition.Root>
 
-      <header className="sticky top-0 bg-white shadow-sm z-20">
+      <header className="sticky top-0 bg-white border-b z-20">
         <nav aria-label="Top">
           <div className="border-b border-gray-200">
             <div className="flex items-center py-4 px-4 sm:px-6 lg:px-8 container mx-auto">

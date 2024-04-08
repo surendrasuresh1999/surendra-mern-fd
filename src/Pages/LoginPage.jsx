@@ -5,6 +5,7 @@ import axios from "axios";
 import { Baseurl } from "../BaseUrl";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -14,17 +15,13 @@ const LoginPage = () => {
   };
 
   const handleFormSubmit = (values, actions) => {
-    // console.log(values);
     axios
       .post(`${Baseurl.baseurl}/api/user/login`, values)
       .then((res) => {
         if (res.data.status) {
-          console.log("login page", res);
-          // localStorage.setItem(
-          //   "talHuntUserDetails",
-          //   JSON.stringify(res.data.details)
-          // );
-          useNavigate("/");
+          localStorage.setItem("eshopUserInfo", JSON.stringify(res.data.user));
+          Cookies.set("jwtToken", res.data.token, { expires: 30 });
+          navigate("/");
           actions.resetForm();
         } else {
           toast.error(res.data.message);

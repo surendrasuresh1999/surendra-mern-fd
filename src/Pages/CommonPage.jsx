@@ -7,7 +7,7 @@ const CommonPage = () => {
   return (
     <div className="relative eshop-home-container">
       <Navbar />
-      <main className="container mx-auto bg-white px-4 py-6 lg:px-8">
+      <main className="container mx-auto bg-white px-4 py-6 sm:px-6 lg:px-8">
         <Outlet />
       </main>
       <Footer />
