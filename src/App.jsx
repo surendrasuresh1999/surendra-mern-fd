@@ -4,13 +4,10 @@ import LoginPage from "./Pages/LoginPage";
 import SignupPage from "./Pages/SignupPage";
 import CommonPage from "./Pages/CommonPage";
 import HomePage from "./Pages/HomePage";
-import ProductList from "./Pages/ProductList";
-import ProductDetailsPage from "./Pages/ProductDetailsPage";
-import CartPage from "./Pages/CartPage";
-import CheckoutPage from "./Pages/CheckoutPage";
-import OrdersPage from "./Pages/OrdersPage";
-import OrderDetailsPage from "./Pages/OrderDetailsPage";
 import PageNotFound from "./Pages/PageNotFound";
+import AuthorsPage from "./Pages/AuthorsPage";
+import JokesPage from "./Pages/JokesPage";
+import QuotesPage from "./Pages/QuotesPage";
 
 const App = () => {
   return (
@@ -19,12 +16,9 @@ const App = () => {
       <Route path="signup" element={<SignupPage />} />
       <Route path="" element={<CommonPage />}>
         <Route index element={<HomePage />} />
-        <Route path="products" element={<ProductList />} />
-        <Route path="product/:id" element={<ProductDetailsPage />} />
-        <Route path="cart" element={<CartPage />} />
-        <Route path="checkout" element={<CheckoutPage />} />
-        <Route path="orders" element={<OrdersPage />} />
-        <Route path="orders/:id" element={<OrderDetailsPage />} />
+        <Route path="authors" element={<AuthorsPage />} />
+        <Route path="jokes" element={<JokesPage />} />
+        <Route path="quotes" element={<QuotesPage />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
