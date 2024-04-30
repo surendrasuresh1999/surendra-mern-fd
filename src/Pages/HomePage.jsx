@@ -1,12 +1,33 @@
-import {
-  EnvelopeIcon,
-  PhoneIcon,
-  PlusCircleIcon,
-} from "@heroicons/react/20/solid";
+import { PlusCircleIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
 import CreateBlogDialog from "../Components/CreateBlogDialog";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import { Link } from "react-router-dom";
+import { Avatar, CardHeader } from "@mui/material";
 
 const people = [
+  {
+    name: "Jane Cooper",
+    title: "Regional Paradigm Technician",
+    role: "Admin",
+    email: "janecooper@example.com",
+    telephone: "+1-202-555-0170",
+    imageUrl:
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
+  },
+  {
+    name: "Jane Cooper",
+    title: "Regional Paradigm Technician",
+    role: "Admin",
+    email: "janecooper@example.com",
+    telephone: "+1-202-555-0170",
+    imageUrl:
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
+  },
   {
     name: "Jane Cooper",
     title: "Regional Paradigm Technician",
@@ -37,65 +58,43 @@ const HomePage = () => {
         className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
       >
         {people.map((person, idx) => (
-          <li
-            key={idx}
-            className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white"
-            style={{
-              boxShadow:
-                "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
-            }}
-          >
-            <div className="flex w-full items-center justify-between space-x-6 p-6">
-              <div className="flex-1 truncate">
-                <div className="flex items-center space-x-3">
-                  <h3 className="truncate text-sm font-medium text-gray-900">
-                    {person.name}
-                  </h3>
-                  <span className="inline-flex flex-shrink-0 items-center rounded-full bg-green-50 px-1.5 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                    {person.role}
-                  </span>
-                </div>
-                <p className="mt-1 truncate text-sm text-gray-500">
-                  {person.title}
-                </p>
-              </div>
-              <img
-                className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300"
-                src={person.imageUrl}
-                alt=""
+          <li key={idx}>
+            <Card>
+              <CardHeader
+                avatar={<Avatar aria-label="recipe">R</Avatar>}
+                title="Shrimp and Chorizo Paella"
+                subheader="September 14, 2016"
               />
-            </div>
-            <div>
-              <div className="-mt-px flex divide-x divide-gray-200">
-                <div className="flex w-0 flex-1">
-                  <a
-                    href={`mailto:${person.email}`}
-                    className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-gray-900"
-                  >
-                    <EnvelopeIcon
-                      className="h-5 w-5 text-gray-400"
-                      aria-hidden="true"
-                    />
-                    Email
-                  </a>
-                </div>
-                <div className="-ml-px flex w-0 flex-1">
-                  <a
-                    href={`tel:${person.telephone}`}
-                    className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900"
-                  >
-                    <PhoneIcon
-                      className="h-5 w-5 text-gray-400"
-                      aria-hidden="true"
-                    />
-                    Call
-                  </a>
-                </div>
-              </div>
-            </div>
+              <CardMedia
+                sx={{ height: 200 }}
+                image="https://media.istockphoto.com/id/1852550664/photo/whether-standing-proudly-in-garden-beds-accentuating-borders-or-gracing-bouquets.jpg?s=1024x1024&w=is&k=20&c=xYUSZ9PXaHJFSvcgXvTVFtlR39ZEwvSbt_IROwGWl9s="
+                title="green iguana"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h1">
+                  Lizard
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Lizards are a widespread group of squamate reptiles, with over
+                  6,000 species, ranging across all continents except Antarctica
+                </Typography>
+              </CardContent>
+              <CardActions className="flex items-center justify-between">
+                <Link
+                  to={`blog/${idx}`}
+                  className="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100"
+                >
+                  Read More
+                </Link>
+                <button className="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">
+                  Education
+                </button>
+              </CardActions>
+            </Card>
           </li>
         ))}
       </ul>
+
       {isOpenDialog && (
         <CreateBlogDialog openDialog={isOpenDialog} setter={setIsOpenDialog} />
       )}

@@ -1,11 +1,8 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import {
-  Bars3Icon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { CircleUserRound } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const navbar = [
   {
@@ -33,6 +30,7 @@ const navbar = [
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [openSideBar, setOpenSideBar] = useState(false);
+  const location = useLocation();
 
   const openSlideOverProfile = () => {
     return (
@@ -103,7 +101,11 @@ const Navbar = () => {
     <>
       {openSideBar && openSlideOverProfile()}
       <Transition.Root show={open} as={Fragment}>
-        <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
+        <Dialog
+          as="div"
+          className="relative z-[60] lg:hidden"
+          onClose={setOpen}
+        >
           <Transition.Child
             as={Fragment}
             enter="transition-opacity ease-linear duration-300"
@@ -180,10 +182,10 @@ const Navbar = () => {
         </Dialog>
       </Transition.Root>
 
-      <header className="sticky top-0 bg-white border-b z-20">
-        <nav aria-label="Top">
-          <div className="border-b border-gray-200">
-            <div className="flex items-center  px-4 sm:px-6 lg:px-8 container mx-auto">
+      <header className="sticky top-0 bg-white border-b z-[60]">
+        <nav className="bg-white">
+          <div>
+            <div className="flex items-center px-4 sm:px-6 lg:px-8 container mx-auto">
               <button
                 type="button"
                 className="relative rounded-md bg-white text-gray-400 lg:hidden"
@@ -209,11 +211,16 @@ const Navbar = () => {
               <ul className="flex items-center gap-4 ml-4">
                 {navbar.map((category, index) => (
                   <li className="flex flex-col relative" key={index}>
-                  <Link to={category.pathValue} className="py-4 px-2 hover:bg-slate-200 hover:text-blue-400 text-10size sm:text-18size font-500 sm:font-600">
-                    {category.name}
-                  </Link>
-                   <span className="h-1 w-full bg-blue-800 absolute bottom-0"></span>
-                   </li>
+                    <Link
+                      to={category.pathValue}
+                      className="py-4 px-2 hover:bg-slate-200 hover:text-blue-400 text-10size sm:text-18size font-500 sm:font-600"
+                    >
+                      {category.name}
+                    </Link>
+                    {location.pathname === category.pathValue ? (
+                      <span className="h-1 w-full bg-blue-800 absolute bottom-0" />
+                    ) : null}
+                  </li>
                 ))}
               </ul>
 

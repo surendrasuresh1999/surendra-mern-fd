@@ -8,6 +8,7 @@ import PageNotFound from "./Pages/PageNotFound";
 import AuthorsPage from "./Pages/AuthorsPage";
 import JokesPage from "./Pages/JokesPage";
 import QuotesPage from "./Pages/QuotesPage";
+import BlogDetailsPage from "./Pages/BlogDetailsPage";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
       <Route path="" element={<CommonPage />}>
         <Route index element={<HomePage />} />
         <Route path="authors" element={<AuthorsPage />} />
+        <Route path="blog/:id" element={<BlogDetailsPage />} />
         <Route path="jokes" element={<JokesPage />} />
         <Route path="quotes" element={<QuotesPage />} />
       </Route>
