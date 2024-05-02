@@ -213,11 +213,17 @@ const Navbar = () => {
                   <li className="flex flex-col relative" key={index}>
                     <Link
                       to={category.pathValue}
-                      className="py-4 px-2 hover:bg-slate-200 hover:text-blue-400 text-10size sm:text-18size font-500 sm:font-600"
+                      className={`py-4 px-2 ${
+                        location.pathname === category.pathValue
+                          ? "bg-slate-200 text-blue-400"
+                          : "hover:bg-slate-200"
+                      }  hover:text-blue-400 text-10size sm:text-18size font-500 sm:font-600`}
                     >
                       {category.name}
                     </Link>
                     {location.pathname === category.pathValue ? (
+                      <span className="h-1 w-full bg-blue-800 absolute bottom-0" />
+                    ) : location.pathname === "blog/:id" ? (
                       <span className="h-1 w-full bg-blue-800 absolute bottom-0" />
                     ) : null}
                   </li>
