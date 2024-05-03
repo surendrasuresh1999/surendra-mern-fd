@@ -96,3 +96,36 @@ const sizeChartData = [
     "Sleeve Length": 25,
   },
 ];
+
+export const categoryOptions = [
+  {
+    id: 0,
+    value: "00",
+    label: "Sports",
+  },
+  {
+    id: 1,
+    value: "01",
+    label: "Technology",
+  },
+  {
+    id: 2,
+    value: "02",
+    label: "Education",
+  },
+  {
+    id: 3,
+    value: "03",
+    label: "Science",
+  },
+  {
+    id: 4,
+    value: "04",
+    label: "Entertainment",
+  },
+  {
+    id: 5,
+    value: "05",
+    label: "Other",
+  },
+];

@@ -1,5 +1,5 @@
 import { PlusCircleIcon } from "@heroicons/react/20/solid";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CreateBlogDialog from "../Components/CreateBlogDialog";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -14,9 +14,11 @@ import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 import ReactTimeAgo from "react-time-ago";
 import Loader from "../Common/Loader";
+import { context } from "./CommonPage";
 
 const HomePage = () => {
   const [isOpenDialog, setIsOpenDialog] = useState(false);
+  const mode = useContext(context);
   const [blogDataObj, setBlogDataObj] = useState({
     isFetching: true,
     data: [],
@@ -109,7 +111,7 @@ const HomePage = () => {
           >
             {blogDataObj.data?.map((blog, idx) => (
               <li key={idx}>
-                <Card>
+                <Card sx={{ backgroundColor: mode ? "#4d4c4c" : "#fff" }}>
                   <CardHeader
                     avatar={
                       <Avatar aria-label="recipe">
@@ -117,7 +119,7 @@ const HomePage = () => {
                       </Avatar>
                     }
                     title={
-                      <p className="text-18size font-600 text-black">
+                      <p className="text-18size font-600 text-black dark:text-white">
                         {blog?.user?.charAt(0).toUpperCase() +
                           blog?.user?.slice(1)}
                       </p>
@@ -126,6 +128,7 @@ const HomePage = () => {
                       <ReactTimeAgo
                         date={Date.parse(blog?.createdAt)}
                         locale="en-US"
+                        className="dark:text-gray-100"
                       />
                     }
                   />
@@ -135,7 +138,7 @@ const HomePage = () => {
                       gutterBottom
                       variant="h5"
                       component="h1"
-                      className="truncate"
+                      className="truncate dark:text-white"
                     >
                       {blog.title}
                     </Typography>

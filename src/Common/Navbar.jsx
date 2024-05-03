@@ -3,6 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { CircleUserRound } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { SunIcon } from "@heroicons/react/16/solid";
 
 const navbar = [
   {
@@ -27,7 +28,7 @@ const navbar = [
   },
 ];
 
-const Navbar = () => {
+const Navbar = ({ mode, setter }) => {
   const [open, setOpen] = useState(false);
   const [openSideBar, setOpenSideBar] = useState(false);
   const location = useLocation();
@@ -182,8 +183,8 @@ const Navbar = () => {
         </Dialog>
       </Transition.Root>
 
-      <header className="sticky top-0 bg-white border-b z-[60]">
-        <nav className="bg-white">
+      <header className="sticky top-0 z-[60]">
+        <nav className={`${mode ? "bg-black border-gray-400" : "bg-white"} border-b`}>
           <div>
             <div className="flex items-center px-4 sm:px-6 lg:px-8 container mx-auto">
               <button
@@ -213,16 +214,16 @@ const Navbar = () => {
                   <li className="flex flex-col relative" key={index}>
                     <Link
                       to={category.pathValue}
-                      className={`py-4 px-2 ${
+                      className={`py-6 px-2 dark:text-white  ${
                         location.pathname === category.pathValue
-                          ? "bg-slate-200 text-blue-400"
+                          ? "bg-slate-200 text-blue-400 dark:bg-gray-800"
                           : "hover:bg-slate-200"
                       }  hover:text-blue-400 text-10size sm:text-18size font-500 sm:font-600`}
                     >
                       {category.name}
                     </Link>
                     {location.pathname === category.pathValue ? (
-                      <span className="h-1 w-full bg-blue-800 absolute bottom-0" />
+                      <span className="h-1 w-full bg-blue-800 absolute dark:text-white bottom-0" />
                     ) : location.pathname === "blog/:id" ? (
                       <span className="h-1 w-full bg-blue-800 absolute bottom-0" />
                     ) : null}
@@ -230,19 +231,31 @@ const Navbar = () => {
                 ))}
               </ul>
 
-              <div className="ml-auto hidden sm:block">
-                <button
-                  onClick={() => setOpenSideBar(true)}
-                  className="flex items-center p-2"
-                >
-                  <CircleUserRound
-                    strokeWidth={1.2}
-                    size={24}
-                    className="h-6 w-6 flex-shrink-0 text-gray-400"
-                    aria-hidden="true"
-                  />
-                  <span className="sr-only">user profile</span>
-                </button>
+              <div className="ml-auto">
+                <div className="flex items-center gap-4">
+                  <div className="hidden sm:blok">
+                    <button
+                      onClick={() => setOpenSideBar(true)}
+                      className="flex items-center p-2 border rounded-xl "
+                    >
+                      <CircleUserRound
+                        strokeWidth={1.2}
+                        size={24}
+                        className="h-6 w-6 flex-shrink-0 text-gray-400"
+                        aria-hidden="true"
+                      />
+                      <span className="sr-only">user profile</span>
+                    </button>
+                  </div>
+                  <button
+                    onClick={() => setter(!mode)}
+                    className={`flex items-center p-2 rounded-xl ${
+                      mode ? "border-indigo-500" : null
+                    } border`}
+                  >
+                    <SunIcon className="h-6 w-6 text-indigo-600" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>

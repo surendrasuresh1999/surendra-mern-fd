@@ -44,12 +44,12 @@ const BlogDetailsPage = () => {
       });
   }, []);
   return (
-    <div>
-      <div className="max-w-5xl m-auto">
+    <div className="max-w-5xl m-auto">
         {blogDataObj.isFetching ? (
           <Loader />
         ) : (
           <div className="space-y-6">
+            <h1 className="text-black dark:text-white text-20size sm:text-24size font-600 tracking-wide">{blogDataObj.data.title}</h1>
             <img
               src={blogDataObj.data.imageUrl}
               alt="banner-img"
@@ -61,11 +61,11 @@ const BlogDetailsPage = () => {
                   {blogDataObj.data.user.slice(0, 1).toUpperCase()}
                 </Avatar>
                 <div>
-                  <p className="font-medium text-18size text-black">
+                  <p className="font-medium text-18size text-black dark:text-white">
                     {blogDataObj.data?.user?.charAt(0).toUpperCase() +
                       blogDataObj.data?.user?.slice(1)}
                   </p>
-                  <span className="font-normal text-14size text-gray-700">
+                  <span className="font-normal text-14size text-gray-700 dark:text-indigo-600">
                     <ReactTimeAgo
                       date={Date.parse(blogDataObj.data?.createdAt)}
                       locale="en-US"
@@ -79,15 +79,15 @@ const BlogDetailsPage = () => {
                 </button>
               </div>
             </div>
-            <p className="text-justify text-gray-600">
+            <div className="text-justify text-gray-600 dark:text-white">
               <div
                 dangerouslySetInnerHTML={{
                   __html: blogDataObj.data?.discription,
                 }}
                 className="text-20size text-justify"
               />
-            </p>
-            <p>
+            </div>
+            <p className="text-black dark:text-white">
               <b>No more content...</b>
             </p>
             <Link
@@ -100,7 +100,6 @@ const BlogDetailsPage = () => {
           </div>
         )}
       </div>
-    </div>
   );
 };
 
