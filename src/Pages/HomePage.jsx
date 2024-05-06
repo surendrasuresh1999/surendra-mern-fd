@@ -15,6 +15,7 @@ import Cookies from "js-cookie";
 import ReactTimeAgo from "react-time-ago";
 import Loader from "../Common/Loader";
 import { context } from "./CommonPage";
+import { Zoom } from "react-awesome-reveal";
 
 const HomePage = () => {
   const [isOpenDialog, setIsOpenDialog] = useState(false);
@@ -29,7 +30,7 @@ const HomePage = () => {
     axios
       .get(`${Baseurl.baseurl}/api/blog`, {
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjMzMWNlMDc3M2ExOGUzZmIxY2FkOTEiLCJpYXQiOjE3MTQ2MjU3NjAsImV4cCI6MTcxNDg4NDk2MH0.fecs-cvkFOOF_RbhzQQwphMQIfNkg9Oa5e4s8ZUHUj0`,
+          Authorization: `Bearer ${jwtToken}`,
         },
       })
       .then((res) => {
@@ -110,59 +111,65 @@ const HomePage = () => {
             className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
           >
             {blogDataObj.data?.map((blog, idx) => (
-              <li key={idx}>
-                <Card sx={{ backgroundColor: mode ? "#4d4c4c" : "#fff" }}>
-                  <CardHeader
-                    avatar={
-                      <Avatar aria-label="recipe">
-                        {blog?.user?.slice(0, 1).toUpperCase()}
-                      </Avatar>
-                    }
-                    title={
-                      <p className="text-18size font-600 text-black dark:text-white">
-                        {blog?.user?.charAt(0).toUpperCase() +
-                          blog?.user?.slice(1)}
-                      </p>
-                    }
-                    subheader={
-                      <ReactTimeAgo
-                        date={Date.parse(blog?.createdAt)}
-                        locale="en-US"
-                        className="dark:text-gray-100"
-                      />
-                    }
-                  />
-                  <CardMedia sx={{ height: 200 }} image={blog.imageUrl} />
-                  <CardContent>
-                    <Typography
-                      gutterBottom
-                      variant="h5"
-                      component="h1"
-                      className="truncate dark:text-white"
-                    >
-                      {blog.title}
-                    </Typography>
-                    <div className="h-20 overflow-hidden">
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: blog?.discription + "...",
-                        }}
-                      />
-                    </div>
-                  </CardContent>
-                  <CardActions className="flex items-center justify-between">
-                    <Link
-                      to={`blog/${blog._id}`}
-                      className="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100"
-                    >
-                      Read More
-                    </Link>
-                    <button className="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">
-                      {blog.categorey}
-                    </button>
-                  </CardActions>
-                </Card>
-              </li>
+              <Zoom key={idx}>
+                <li key={idx}>
+                  <Card
+                    className="card"
+                    sx={{ backgroundColor: mode ? "#4d4c4c" : "#fff" }}
+                  >
+                    <CardHeader
+                      avatar={
+                        <Avatar aria-label="recipe">
+                          {blog?.user?.slice(0, 1).toUpperCase()}
+                        </Avatar>
+                      }
+                      title={
+                        <p className="text-18size font-600 text-black dark:text-white">
+                          {blog?.user?.charAt(0).toUpperCase() +
+                            blog?.user?.slice(1)}
+                        </p>
+                      }
+                      subheader={
+                        <ReactTimeAgo
+                          date={Date.parse(blog?.createdAt)}
+                          locale="en-US"
+                          className="dark:text-gray-100"
+                        />
+                      }
+                    />
+                    <CardMedia sx={{ height: 200 }} image={blog.imageUrl} />
+                    <CardContent>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="h1"
+                        className="truncate dark:text-white"
+                      >
+                        {blog.title}
+                      </Typography>
+                      <div>
+                        <div
+                          className="dangers"
+                          dangerouslySetInnerHTML={{
+                            __html: blog?.discription + "...",
+                          }}
+                        />
+                      </div>
+                    </CardContent>
+                    <CardActions className="flex items-center justify-between">
+                      <Link
+                        to={`blog/${blog._id}`}
+                        className="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100"
+                      >
+                        Read More
+                      </Link>
+                      <button className="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">
+                        {blog.categorey}
+                      </button>
+                    </CardActions>
+                  </Card>
+                </li>
+              </Zoom>
             ))}
           </ul>
         ) : (

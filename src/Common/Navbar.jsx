@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { CircleUserRound } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import { SunIcon } from "@heroicons/react/16/solid";
+import { MoonIcon, SunIcon } from "@heroicons/react/16/solid";
 
 const navbar = [
   {
@@ -184,7 +184,11 @@ const Navbar = ({ mode, setter }) => {
       </Transition.Root>
 
       <header className="sticky top-0 z-[60]">
-        <nav className={`${mode ? "bg-black border-gray-400" : "bg-white"} border-b`}>
+        <nav
+          className={`${
+            mode ? "bg-black border-gray-400 " : "bg-white"
+          } border-b bg-opacity-85`}
+        >
           <div>
             <div className="flex items-center px-4 sm:px-6 lg:px-8 container mx-auto">
               <button
@@ -217,8 +221,8 @@ const Navbar = ({ mode, setter }) => {
                       className={`py-6 px-2 dark:text-white  ${
                         location.pathname === category.pathValue
                           ? "bg-slate-200 text-blue-400 dark:bg-gray-800"
-                          : "hover:bg-slate-200"
-                      }  hover:text-blue-400 text-10size sm:text-18size font-500 sm:font-600`}
+                          : "hover:bg-transparent"
+                      } text-10size sm:text-18size font-500 sm:font-600`}
                     >
                       {category.name}
                     </Link>
@@ -253,7 +257,11 @@ const Navbar = ({ mode, setter }) => {
                       mode ? "border-indigo-500" : null
                     } border`}
                   >
-                    <SunIcon className="h-6 w-6 text-indigo-600" />
+                    {mode ? (
+                      <SunIcon className="h-6 w-6 text-indigo-600" />
+                    ) : (
+                      <MoonIcon className="h-6 w-6 text-gray-500" />
+                    )}
                   </button>
                 </div>
               </div>

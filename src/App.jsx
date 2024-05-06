@@ -9,18 +9,21 @@ import AuthorsPage from "./Pages/AuthorsPage";
 import JokesPage from "./Pages/JokesPage";
 import QuotesPage from "./Pages/QuotesPage";
 import BlogDetailsPage from "./Pages/BlogDetailsPage";
+import ProtectedRoute from "./Pages/ProtectedRoute";
 
 const App = () => {
   return (
     <Routes>
       <Route path="login" element={<LoginPage />} />
       <Route path="signup" element={<SignupPage />} />
-      <Route path="" element={<CommonPage />}>
-        <Route index element={<HomePage />} />
-        <Route path="authors" element={<AuthorsPage />} />
-        <Route path="blog/:id" element={<BlogDetailsPage />} />
-        <Route path="jokes" element={<JokesPage />} />
-        <Route path="quotes" element={<QuotesPage />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="" element={<CommonPage />}>
+          <Route index element={<HomePage />} />
+          <Route path="authors" element={<AuthorsPage />} />
+          <Route path="blog/:id" element={<BlogDetailsPage />} />
+          <Route path="jokes" element={<JokesPage />} />
+          <Route path="quotes" element={<QuotesPage />} />
+        </Route>
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>

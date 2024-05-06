@@ -13,7 +13,16 @@ body {
 .form-shadow {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
-.darkMode{
+
+.darkMode {
   --jd-color-background-default: #000 !important;
   color: #fff !important;
+}
+
+.dangers {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

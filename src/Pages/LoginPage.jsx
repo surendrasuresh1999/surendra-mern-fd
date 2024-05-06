@@ -19,7 +19,10 @@ const LoginPage = () => {
       .post(`${Baseurl.baseurl}/api/user/login`, values)
       .then((res) => {
         if (res.data.status) {
-          localStorage.setItem("eshopUserInfo", JSON.stringify(res.data.user));
+          localStorage.setItem(
+            "blogUserDetails",
+            JSON.stringify(res.data.user)
+          );
           Cookies.set("jwtToken", res.data.token, { expires: 30 });
           navigate("/");
           actions.resetForm();
