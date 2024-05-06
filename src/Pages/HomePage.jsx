@@ -16,6 +16,7 @@ import ReactTimeAgo from "react-time-ago";
 import Loader from "../Common/Loader";
 import { context } from "./CommonPage";
 import { Zoom } from "react-awesome-reveal";
+import NoDataFound from "../Common/NoDataFoun";
 
 const HomePage = () => {
   const [isOpenDialog, setIsOpenDialog] = useState(false);
@@ -68,7 +69,7 @@ const HomePage = () => {
     axios
       .post(`${Baseurl.baseurl}/api/blog`, data, {
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjMzMWNlMDc3M2ExOGUzZmIxY2FkOTEiLCJpYXQiOjE3MTQ2MjU3NjAsImV4cCI6MTcxNDg4NDk2MH0.fecs-cvkFOOF_RbhzQQwphMQIfNkg9Oa5e4s8ZUHUj0`,
+          Authorization: `Bearer ${jwtToken}`,
         },
       })
       .then((res) => {
@@ -173,7 +174,17 @@ const HomePage = () => {
             ))}
           </ul>
         ) : (
-          <div>No data found</div>
+          <>
+            <NoDataFound title={"No data found at this moment"} />
+            <button
+              onClick={() => setIsOpenDialog(true)}
+              type="button"
+              className="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100 flex items-center gap-1"
+            >
+              <PlusCircleIcon className="h-5 w-5 text-indigo-600" />
+              Create blog
+            </button>
+          </>
         )}
       </div>
       {isOpenDialog && (

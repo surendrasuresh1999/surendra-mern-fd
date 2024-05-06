@@ -48,6 +48,7 @@ const BlogDetailsPage = () => {
         toast.error(err.message);
       });
   }, []);
+  console.log("blogDataObj", blogDataObj);
   return (
     <div className="max-w-5xl m-auto">
       {blogDataObj.isFetching ? (
@@ -126,6 +127,7 @@ const BlogDetailsPage = () => {
       )}
       {openCommentsSlider && (
         <CommentsDrawer
+          commentsData={blogDataObj?.data?.comments}
           openDrawer={openCommentsSlider}
           setterFun={setOpenCommentsSlider}
         />

@@ -34,7 +34,6 @@ const Transition = forwardRef(function Transition(props, ref) {
 const CreateBlogDialog = ({ openDialog, setter, handler }) => {
   const [showWidget, setShowWidget] = useState(false);
   const mode = useContext(context);
-  console.log("================================", mode);
   const [category, setCategory] = useState(null);
   const [uploadedFileName, setUploadedFileName] = useState("");
   const [uploadData, setUploadData] = useState({
