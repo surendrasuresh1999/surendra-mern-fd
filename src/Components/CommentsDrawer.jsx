@@ -14,11 +14,12 @@ import {
 } from "@heroicons/react/24/outline";
 import { context } from "../Pages/CommonPage";
 import NoDataFound from "../Common/NoDataFoun";
+import { TrashIcon } from "@heroicons/react/20/solid";
 
 function Transition(props) {
   return <Slide direction="down" {...props} />;
 }
-const CommentsDrawer = ({ openDrawer, setterFun, commentsData }) => {
+const CommentsDrawer = ({ openDrawer, setterFun, commentsData,handlerFun }) => {
   const mode = useContext(context);
   return (
     <Dialog
@@ -47,15 +48,20 @@ const CommentsDrawer = ({ openDrawer, setterFun, commentsData }) => {
                 <Avatar sx={{ width: 50, height: 50, fontSize: "24px" }}>
                   {data.userId.name.slice(0, 1).toUpperCase()}
                 </Avatar>
-                <div className="grow-0">
-                  <p
-                    className={`font-semibold text-18size tracking-wide ${
-                      mode ? "text-white" : "text-black"
-                    }`}
-                  >
-                    {data.userId.name.charAt(0).toUpperCase() +
-                      data.userId.name.slice(1)}
-                  </p>
+                <div className="flex flex-col grow space-y-1">
+                  <div className="flex items-cente justify-between">
+                    <p
+                      className={`font-semibold text-18size tracking-wide ${
+                        mode ? "text-white" : "text-black"
+                      }`}
+                    >
+                      {data.userId.name.charAt(0).toUpperCase() +
+                        data.userId.name.slice(1)}
+                    </p>
+                    <button onClick={() => handlerFun(data._id)}>
+                      <TrashIcon className="h-6 w-6 text-gray-500" />
+                    </button>
+                  </div>
                   <p className="text-gray-400 text-14size break-all">
                     {data.comment}
                   </p>

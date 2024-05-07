@@ -8,8 +8,6 @@ import { Link, useParams } from "react-router-dom";
 import Loader from "../Common/Loader";
 import { ArrowLeftIcon, ArrowUpRightIcon } from "@heroicons/react/16/solid";
 import toast from "react-hot-toast";
-import CommentsSlideOver from "../Components/CommentsDrawer";
-import CommentSlideOver from "../Components/CommentsDrawer";
 import CommentsDrawer from "../Components/CommentsDrawer";
 
 const BlogDetailsPage = () => {
@@ -19,10 +17,11 @@ const BlogDetailsPage = () => {
     error: false,
   });
   const [openCommentsSlider, setOpenCommentsSlider] = useState(false);
+  const [comment, setComment] = useState("");
   const { id } = useParams();
   const jwtToken = Cookies.get("jwtToken");
 
-  useEffect(() => {
+  const getBlogDetails = () => {
     axios
       .get(`${Baseurl.baseurl}/api/blog/${id}`, {
         headers: {
@@ -47,15 +46,68 @@ const BlogDetailsPage = () => {
         console.log("Error", err.message);
         toast.error(err.message);
       });
+  };
+  useEffect(() => {
+    getBlogDetails();
   }, []);
-  console.log("blogDataObj", blogDataObj);
+
+  // create a new comment for the specified blog
+  const handleCreateComment = () => {
+    const data = { comment, blogId: id };
+    axios
+      .post(`${Baseurl.baseurl}/api/comments`, data, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          toast.success(res.data.message);
+          getBlogDetails();
+          setComment("");
+        } else {
+          toast.error(res.data.message);
+          console.log("res", res);
+        }
+      })
+      .catch((err) => {
+        console.log("Error", err.message);
+        toast.error(err.message);
+      });
+    };
+    // console.log("blogDataObj", blogDataObj);
+
+  // delete comment from the specified blog
+  const handleReceiveCommentIdAndDeleteComment = (commentId) => {
+    axios
+      .delete(`${Baseurl.baseurl}/api/comments/${commentId}/${id}`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      })
+      .then((res) => {
+        if (res.data.status === 200) {
+          toast.success(res.data.message);
+          setOpenCommentsSlider(false);
+          getBlogDetails();
+        } else {
+          toast.error(res.data.message);
+          console.log("res", res);
+        }
+      })
+      .catch((err) => {
+        console.log("Error", err.message);
+        toast.error(err.message);
+      });
+  };
+
   return (
     <div className="max-w-5xl m-auto">
       {blogDataObj.isFetching ? (
         <Loader />
       ) : (
         <div className="space-y-4">
-          <h1 className="text-black dark:text-white text-20size sm:text-24size font-600 tracking-wide">
+          <h1 className="text-black dark:text-white text-18size sm:text-24size font-600 tracking-wide">
             {blogDataObj.data.title}
           </h1>
           <img
@@ -97,14 +149,25 @@ const BlogDetailsPage = () => {
               />
             </div>
           </>
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-4">
             <input
               type="text"
               className="p-1.5 rounded-md grow dark:bg-gray-700 dark:text-white"
               placeholder="Drop a comment..."
+              value={comment}
+              onChange={(event) => setComment(event.target.value)}
             />
             <div className="shrink-0 flex items-center gap-4">
-              <button className="rounded-md bg-indigo-50 px-3 py-2 text-16size font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100 flex items-center gap-1">
+              <button
+                onClick={() => {
+                  if (comment === "") {
+                    toast.error("Please enter a comment");
+                  } else {
+                    handleCreateComment();
+                  }
+                }}
+                className="rounded-md bg-indigo-50 px-3 py-2 text-16size font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100 flex items-center gap-1"
+              >
                 Post
                 <ArrowUpRightIcon className="h-6 w-6" />
               </button>
@@ -130,6 +193,7 @@ const BlogDetailsPage = () => {
           commentsData={blogDataObj?.data?.comments}
           openDrawer={openCommentsSlider}
           setterFun={setOpenCommentsSlider}
+          handlerFun={handleReceiveCommentIdAndDeleteComment}
         />
       )}
     </div>
