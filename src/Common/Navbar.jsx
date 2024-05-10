@@ -193,7 +193,7 @@ const Navbar = ({ mode, setter }) => {
             <div className="flex items-center px-4 sm:px-6 lg:px-8 container mx-auto">
               <button
                 type="button"
-                className="relative rounded-md bg-white text-gray-400 lg:hidden"
+                className="relative rounded-md bg-transparent text-gray-400 lg:hidden"
                 onClick={() => setOpen(true)}
               >
                 <span className="absolute -inset-0.5" />
@@ -251,7 +251,7 @@ const Navbar = ({ mode, setter }) => {
                       <span className="sr-only">user profile</span>
                     </button>
                   </div>
-                  <button
+                  {/* <button
                     onClick={() => setter(!mode)}
                     className={`flex items-center p-2 rounded-xl ${
                       mode ? "border-indigo-500" : null
@@ -262,7 +262,7 @@ const Navbar = ({ mode, setter }) => {
                     ) : (
                       <MoonIcon className="h-6 w-6 text-gray-500" />
                     )}
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>

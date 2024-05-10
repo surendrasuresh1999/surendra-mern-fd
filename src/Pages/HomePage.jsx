@@ -154,6 +154,9 @@ const HomePage = () => {
                           dangerouslySetInnerHTML={{
                             __html: blog?.discription + "...",
                           }}
+                          style={{
+                            color: mode ? "white":"black",
+                          }}
                         />
                       </div>
                     </CardContent>
