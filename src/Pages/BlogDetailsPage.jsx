@@ -74,11 +74,9 @@ const BlogDetailsPage = () => {
         console.log("Error", err.message);
         toast.error(err.message);
       });
-    };
-    // console.log("blogDataObj", blogDataObj);
+  };
 
-  // delete comment from the specified blog
-  const handleReceiveCommentIdAndDeleteComment = (commentId) => {
+  const handleDeleteComment = (commentId) => {
     axios
       .delete(`${Baseurl.baseurl}/api/comments/${commentId}/${id}`, {
         headers: {
@@ -99,6 +97,45 @@ const BlogDetailsPage = () => {
         console.log("Error", err.message);
         toast.error(err.message);
       });
+  };
+
+  const handleUserOpinionOnComment = (commentId, actionType) => {
+    axios
+      .put(
+        `${Baseurl.baseurl}/api/comments/${commentId}/${id}`,
+        { type: actionType },
+        {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (res.data.status === 200) {
+          toast.success(res.data.message);
+          getBlogDetails();
+        } else {
+          toast.error(res.data.message);
+          console.log("res", res);
+        }
+      })
+      .catch((err) => {
+        console.log("Error", err.message);
+        toast.error(err.message);
+      });
+  };
+
+  // delete comment from the specified blog
+  const handleReceiveCommentIdAndDeleteComment = (commentId, actionType) => {
+    switch (actionType) {
+      case "delete":
+        return handleDeleteComment(commentId);
+      case "like":
+      case "unlike":
+        return handleUserOpinionOnComment(commentId);
+      default:
+        return null;
+    }
   };
 
   return (

@@ -14,13 +14,25 @@ import {
 } from "@heroicons/react/24/outline";
 import { context } from "../Pages/CommonPage";
 import NoDataFound from "../Common/NoDataFoun";
-import { TrashIcon } from "@heroicons/react/20/solid";
+import {
+  TrashIcon,
+  HandThumbDownIcon as FilledDown,
+  HandThumbUpIcon as FilledUP,
+} from "@heroicons/react/20/solid";
+import numeral from "numeral";
 
 function Transition(props) {
   return <Slide direction="down" {...props} />;
 }
-const CommentsDrawer = ({ openDrawer, setterFun, commentsData,handlerFun }) => {
+const CommentsDrawer = ({
+  openDrawer,
+  setterFun,
+  commentsData,
+  handlerFun,
+}) => {
+  const userDetails = JSON.parse(localStorage.getItem("blogUserDetails"));
   const mode = useContext(context);
+  console.log(commentsData);
   return (
     <Dialog
       TransitionComponent={Transition}
@@ -58,7 +70,7 @@ const CommentsDrawer = ({ openDrawer, setterFun, commentsData,handlerFun }) => {
                       {data.userId.name.charAt(0).toUpperCase() +
                         data.userId.name.slice(1)}
                     </p>
-                    <button onClick={() => handlerFun(data._id)}>
+                    <button onClick={() => handlerFun(data._id, "delete")}>
                       <TrashIcon className="h-6 w-6 text-gray-500" />
                     </button>
                   </div>
@@ -66,19 +78,37 @@ const CommentsDrawer = ({ openDrawer, setterFun, commentsData,handlerFun }) => {
                     {data.comment}
                   </p>
                   <div className="flex items-center space-x-4">
-                    <button>
-                      <HandThumbUpIcon
-                        className={`h-4 w-4 ${
-                          mode ? "text-white" : "text-black"
-                        }`}
-                      />
+                    <button
+                      onClick={() => handlerFun(data._id, "like")}
+                      className="flex items-center gap-1"
+                    >
+                      {!data.likedUsers.includes(userDetails._id) ? (
+                        <HandThumbUpIcon className={`h-4 w-4 text-gray-600`} />
+                      ) : (
+                        <FilledUP className={`h-4 w-4 text-orange-600`} />
+                      )}
+                      {data.likedUsers.length > 0 ? (
+                        <span className="text-gray-500 font-500 text-12size tracking-wide">
+                          {data.likedUsers.length}
+                        </span>
+                      ) : null}
                     </button>
-                    <button>
-                      <HandThumbDownIcon
-                        className={`h-4 w-4 ${
-                          mode ? "text-white" : "text-black"
-                        }`}
-                      />
+                    <button
+                      className="flex items-center gap-1"
+                      onClick={() => handlerFun(data._id, "unlike")}
+                    >
+                      {!data.dislikedUsers.includes(userDetails._id) ? (
+                        <HandThumbDownIcon
+                          className={`h-4 w-4 text-gray-600`}
+                        />
+                      ) : (
+                        <FilledDown className={`h-4 w-4 text-orange-600`} />
+                      )}
+                      {data.dislikedUsers.length > 0 ? (
+                        <span className="text-gray-500 font-500 text-12size tracking-wide">
+                          {numeral(data.dislikedUsers.length).format("0,a")}
+                        </span>
+                      ) : null}
                     </button>
                     <button className={`${mode ? "text-white" : "text-balck"}`}>
                       reply
