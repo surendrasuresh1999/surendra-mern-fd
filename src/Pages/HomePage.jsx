@@ -17,6 +17,7 @@ import Loader from "../Common/Loader";
 import { context } from "./CommonPage";
 import { Zoom } from "react-awesome-reveal";
 import NoDataFound from "../Common/NoDataFoun";
+import BlogCard from "../Components/BlogCard";
 
 const HomePage = () => {
   const [isOpenDialog, setIsOpenDialog] = useState(false);
@@ -36,7 +37,7 @@ const HomePage = () => {
       })
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data);
+          // console.log(res.data);
           setBlogDataObj({
             ...blogDataObj,
             isFetching: false,
@@ -74,7 +75,7 @@ const HomePage = () => {
       })
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data);
+          // console.log(res.data);
           getAllBlogPosts();
           toast.success(res.data.message);
           setIsOpenDialog(false);
@@ -114,64 +115,7 @@ const HomePage = () => {
             {blogDataObj.data?.map((blog, idx) => (
               <Zoom key={idx}>
                 <li key={idx}>
-                  <Card
-                    className="card"
-                    sx={{ backgroundColor: mode ? "#4d4c4c" : "#fff" }}
-                  >
-                    <CardHeader
-                      avatar={
-                        <Avatar aria-label="recipe">
-                          {blog?.user?.slice(0, 1).toUpperCase()}
-                        </Avatar>
-                      }
-                      title={
-                        <p className="text-18size font-600 text-black dark:text-white">
-                          {blog?.user?.charAt(0).toUpperCase() +
-                            blog?.user?.slice(1)}
-                        </p>
-                      }
-                      subheader={
-                        <ReactTimeAgo
-                          date={Date.parse(blog?.createdAt)}
-                          locale="en-US"
-                          className="dark:text-gray-100"
-                        />
-                      }
-                    />
-                    <CardMedia sx={{ height: 200 }} image={blog.imageUrl} />
-                    <CardContent>
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="h1"
-                        className="truncate dark:text-white"
-                      >
-                        {blog.title}
-                      </Typography>
-                      <div>
-                        <div
-                          className="dangers"
-                          dangerouslySetInnerHTML={{
-                            __html: blog?.discription + "...",
-                          }}
-                          style={{
-                            color: mode ? "white":"black",
-                          }}
-                        />
-                      </div>
-                    </CardContent>
-                    <CardActions className="flex items-center justify-between">
-                      <Link
-                        to={`blog/${blog._id}`}
-                        className="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100"
-                      >
-                        Read More
-                      </Link>
-                      <button className="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">
-                        {blog.categorey}
-                      </button>
-                    </CardActions>
-                  </Card>
+                  <BlogCard blog={blog} showDeleteBtn={false} />
                 </li>
               </Zoom>
             ))}

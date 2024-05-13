@@ -10,6 +10,7 @@ import JokesPage from "./Pages/JokesPage";
 import QuotesPage from "./Pages/QuotesPage";
 import BlogDetailsPage from "./Pages/BlogDetailsPage";
 import ProtectedRoute from "./Pages/ProtectedRoute";
+import MyActivityPage from "./Pages/MyActivityPage";
 
 const App = () => {
   return (
@@ -20,7 +21,9 @@ const App = () => {
         <Route path="" element={<CommonPage />}>
           <Route index element={<HomePage />} />
           <Route path="authors" element={<AuthorsPage />} />
+          <Route path="my-activity" element={<MyActivityPage />} />
           <Route path="blog/:id" element={<BlogDetailsPage />} />
+          <Route path="my-activity/blog/:id" element={<BlogDetailsPage />} />
           <Route path="jokes" element={<JokesPage />} />
           <Route path="quotes" element={<QuotesPage />} />
         </Route>

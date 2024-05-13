@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { CircleUserRound } from "lucide-react";
@@ -36,7 +36,7 @@ const Navbar = ({ mode, setter }) => {
   const openSlideOverProfile = () => {
     return (
       <Transition.Root show={openSideBar} as={Fragment}>
-        <Dialog as="div" className="relative z-30" onClose={setOpenSideBar}>
+        <Dialog as="div" className="relative z-[70]" onClose={setOpenSideBar}>
           <Transition.Child
             as={Fragment}
             enter="ease-in-out duration-500"
@@ -62,7 +62,7 @@ const Navbar = ({ mode, setter }) => {
                   leaveTo="translate-x-full"
                 >
                   <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-                    <div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
+                    <div className="flex h-full flex-col overflow-y-auto bg-white py-6 shadow-xl">
                       <div className="px-4 sm:px-6">
                         <div className="flex items-start justify-between">
                           <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
@@ -97,6 +97,12 @@ const Navbar = ({ mode, setter }) => {
       </Transition.Root>
     );
   };
+
+  useEffect(() => {
+    if (open) {
+      setOpen(false);
+    }
+  }, [location]);
 
   return (
     <>
@@ -176,6 +182,14 @@ const Navbar = ({ mode, setter }) => {
                       Profile
                     </a>
                   </div>
+                  <div className="flow-root">
+                    <Link
+                      to="/my-activity"
+                      className="-m-2 block p-2 font-medium text-gray-900"
+                    >
+                      My activity
+                    </Link>
+                  </div>
                 </div>
               </Dialog.Panel>
             </Transition.Child>
@@ -237,11 +251,8 @@ const Navbar = ({ mode, setter }) => {
 
               <div className="ml-auto">
                 <div className="flex items-center gap-4">
-                  <div className="hidden sm:blok">
-                    <button
-                      onClick={() => setOpenSideBar(true)}
-                      className="flex items-center p-2 border rounded-xl "
-                    >
+                  <div className="">
+                    <button onClick={() => setOpenSideBar(true)}>
                       <CircleUserRound
                         strokeWidth={1.2}
                         size={24}
