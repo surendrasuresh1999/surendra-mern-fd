@@ -115,13 +115,17 @@ const HomePage = () => {
             {blogDataObj.data?.map((blog, idx) => (
               <Zoom key={idx}>
                 <li key={idx}>
-                  <BlogCard blog={blog} showDeleteBtn={false} />
+                  <BlogCard
+                    blog={blog}
+                    showDeleteBtn={false}
+                    handler={() => {}}
+                  />
                 </li>
               </Zoom>
             ))}
           </ul>
         ) : (
-          <>
+          <div className="flex flex-col items-center">
             <NoDataFound title={"No data found at this moment"} />
             <button
               onClick={() => setIsOpenDialog(true)}
@@ -131,7 +135,7 @@ const HomePage = () => {
               <PlusCircleIcon className="h-5 w-5 text-indigo-600" />
               Create blog
             </button>
-          </>
+          </div>
         )}
       </div>
       {isOpenDialog && (

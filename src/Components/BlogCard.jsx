@@ -10,7 +10,6 @@ import { Avatar, CardHeader, IconButton } from "@mui/material";
 import { TrashIcon } from "@heroicons/react/16/solid";
 
 const BlogCard = ({ blog, showDeleteBtn, handler }) => {
-  const navigate = useNavigate();
   return (
     <Card className="card">
       <CardHeader
@@ -70,10 +69,7 @@ const BlogCard = ({ blog, showDeleteBtn, handler }) => {
         >
           Read More
         </Link>
-        <button
-          onClick={() => navigate(`blog/${blog._id}`)}
-          className="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100"
-        >
+        <button className="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">
           {blog.categorey}
         </button>
       </CardActions>

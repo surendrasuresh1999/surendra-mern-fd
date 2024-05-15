@@ -82,10 +82,14 @@ const CommentsDrawer = ({
                       onClick={() => handlerFun(data._id, "like")}
                       className="flex items-center gap-1"
                     >
-                      {!data.likedUsers.includes(userDetails._id) ? (
-                        <HandThumbUpIcon className={`h-4 w-4 text-gray-600`} />
-                      ) : (
+                      {console.log(
+                        "yes",
+                        data.likedUsers.includes(userDetails._id)
+                      )}
+                      {data.likedUsers.includes(userDetails._id) ? (
                         <FilledUP className={`h-4 w-4 text-orange-600`} />
+                      ) : (
+                        <HandThumbUpIcon className={`h-4 w-4 text-gray-600`} />
                       )}
                       {data.likedUsers.length > 0 ? (
                         <span className="text-gray-500 font-500 text-12size tracking-wide">
@@ -97,12 +101,14 @@ const CommentsDrawer = ({
                       className="flex items-center gap-1"
                       onClick={() => handlerFun(data._id, "unlike")}
                     >
-                      {!data.dislikedUsers.includes(userDetails._id) ? (
-                        <HandThumbDownIcon
-                          className={`h-4 w-4 text-gray-600`}
-                        />
+                      {/* {console.log(
+                        "yes",
+                        data.dislikedUsers.includes(userDetails._id)
+                      )} */}
+                      {data.dislikedUsers.includes(userDetails._id) ? (
+                        <FilledDown className="h-4 w-4 text-orange-600" />
                       ) : (
-                        <FilledDown className={`h-4 w-4 text-orange-600`} />
+                        <HandThumbDownIcon className="h-4 w-4 text-gray-600" />
                       )}
                       {data.dislikedUsers.length > 0 ? (
                         <span className="text-gray-500 font-500 text-12size tracking-wide">

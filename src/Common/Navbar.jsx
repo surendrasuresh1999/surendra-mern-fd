@@ -1,9 +1,11 @@
 import { Fragment, useEffect, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { CircleUserRound } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
-import { MoonIcon, SunIcon } from "@heroicons/react/16/solid";
+import { Activity, CircleUserRoundIcon, LogOut } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { Avatar } from "@mui/material";
+import ReactTimeAgo from "react-time-ago";
 
 const navbar = [
   {
@@ -27,12 +29,22 @@ const navbar = [
     pathValue: "/authors",
   },
 ];
+const userNavigation = [
+  { name: "My activity", icon: <Activity size={18} /> },
+  { name: "My profile", icon: <CircleUserRoundIcon size={18} /> },
+  { name: "Log out", icon: <LogOut size={18} /> },
+];
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
 
 const Navbar = ({ mode, setter }) => {
   const [open, setOpen] = useState(false);
   const [openSideBar, setOpenSideBar] = useState(false);
   const location = useLocation();
-
+  const navigate = useNavigate();
+  const userDetails = JSON.parse(localStorage.getItem("blogUserDetails"));
   const openSlideOverProfile = () => {
     return (
       <Transition.Root show={openSideBar} as={Fragment}>
@@ -61,14 +73,34 @@ const Navbar = ({ mode, setter }) => {
                   leaveFrom="translate-x-0"
                   leaveTo="translate-x-full"
                 >
-                  <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-                    <div className="flex h-full flex-col overflow-y-auto bg-white py-6 shadow-xl">
-                      <div className="px-4 sm:px-6">
+                  <Dialog.Panel className="pointer-events-auto w-screen max-w-md bg-slate-800">
+                    <div className="flex h-full flex-col relative bg-white shadow-xl w-full">
+                      <div className="p-4 border-b sticky top-0 z-20 bg-white">
                         <div className="flex items-start justify-between">
-                          <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
-                            Panel title
-                          </Dialog.Title>
-                          <div className="ml-3 flex h-7 items-center">
+                          <div className="flex items-start gap-2">
+                            <Avatar sx={{ width: 50, height: 50 }}>
+                              {userDetails.name.charAt(0).toUpperCase()}
+                            </Avatar>
+                            <div>
+                              <p className="text-black font-700 text-20size tracking-wide leading-6">
+                                {userDetails.name.charAt(0).toUpperCase() +
+                                  userDetails.name.slice(1)}
+                              </p>
+                              <span className="text-gray-500 font-600 text-14size tracking-wide">
+                                {userDetails.email}
+                              </span>
+                              <p
+                                className={`text-sm text-slate-500 tracking-wide`}
+                              >
+                                Joined{" "}
+                                <ReactTimeAgo
+                                  date={Date.parse(userDetails.createdAt)}
+                                  locale="en-US"
+                                />
+                              </p>
+                            </div>
+                          </div>
+                          {/* <div className="ml-3 flex items-center">
                             <button
                               type="button"
                               className="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -81,11 +113,18 @@ const Navbar = ({ mode, setter }) => {
                                 aria-hidden="true"
                               />
                             </button>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
-                      <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                        {/* Your content */}
+                      <div className="relative flex-1 px-4 sm:px-6 overflow-y-auto max-w-md break-words">
+                        <ul className="grid grid-cols-2 gap-4 py-4">
+                          {[1, 2, 3, 4].map((card, i) => (
+                            <li
+                              key={i}
+                              className={`relative flex items-center space-x-3 rounded-lg border border-gray-300 px-6 py-4 shadow focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2`}
+                            >{card}</li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                   </Dialog.Panel>
@@ -103,6 +142,34 @@ const Navbar = ({ mode, setter }) => {
       setOpen(false);
     }
   }, [location]);
+
+  const handleClickMenuItem = (itemIndex) => {
+    switch (itemIndex) {
+      case 0:
+        return navigate("/my-activity");
+      case 1:
+        return setOpenSideBar(true);
+      case 2:
+        return swal({
+          title: "Logout Confirmation",
+          icon: "warning",
+          text: "Are you sure you want to log out?",
+          buttons: true,
+          dangerMode: true,
+        })
+          .then((willDelete) => {
+            if (willDelete) {
+              localStorage.removeItem("blogUserDetails");
+              navigate("/login");
+            }
+          })
+          .catch((error) => {
+            console.log("Error", error.message);
+          });
+      default:
+        return null;
+    }
+  };
 
   return (
     <>
@@ -164,33 +231,6 @@ const Navbar = ({ mode, setter }) => {
                     </div>
                   ))}
                 </div>
-
-                <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-                  <div className="flow-root">
-                    <a
-                      href="#"
-                      className="-m-2 block p-2 font-medium text-gray-900"
-                    >
-                      Sign out
-                    </a>
-                  </div>
-                  <div className="flow-root">
-                    <a
-                      href="#"
-                      className="-m-2 block p-2 font-medium text-gray-900"
-                    >
-                      Profile
-                    </a>
-                  </div>
-                  <div className="flow-root">
-                    <Link
-                      to="/my-activity"
-                      className="-m-2 block p-2 font-medium text-gray-900"
-                    >
-                      My activity
-                    </Link>
-                  </div>
-                </div>
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -204,7 +244,7 @@ const Navbar = ({ mode, setter }) => {
           } border-b bg-opacity-85`}
         >
           <div>
-            <div className="flex items-center px-4 sm:px-6 lg:px-8 container mx-auto">
+            <div className="flex items-center px-4 sm:px-6 lg:px-8 container mx-auto py-3 sm:py-0">
               <button
                 type="button"
                 className="relative rounded-md bg-transparent text-gray-400 lg:hidden"
@@ -216,7 +256,7 @@ const Navbar = ({ mode, setter }) => {
               </button>
 
               {/* Logo */}
-              <div className="ml-4 lg:ml-0 hidden lg:block">
+              <div className="ml-4 lg:ml-0">
                 <a href="#">
                   <span className="sr-only">Your Company</span>
                   <img
@@ -227,7 +267,7 @@ const Navbar = ({ mode, setter }) => {
                 </a>
               </div>
 
-              <ul className="flex items-center gap-4 ml-4">
+              <ul className="hidden sm:flex items-center gap-4 ml-4">
                 {navbar.map((category, index) => (
                   <li className="flex flex-col relative" key={index}>
                     <Link
@@ -252,28 +292,58 @@ const Navbar = ({ mode, setter }) => {
               <div className="ml-auto">
                 <div className="flex items-center gap-4">
                   <div className="">
-                    <button onClick={() => setOpenSideBar(true)}>
-                      <CircleUserRound
-                        strokeWidth={1.2}
-                        size={24}
-                        className="h-6 w-6 flex-shrink-0 text-gray-400"
-                        aria-hidden="true"
-                      />
-                      <span className="sr-only">user profile</span>
-                    </button>
+                    <Menu as="div" className="relative">
+                      <Menu.Button className="-m-1.5 flex items-center p-1.5">
+                        <span className="sr-only">Open user menu</span>
+                        <img
+                          className="h-8 w-8 rounded-full bg-gray-50"
+                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                          alt=""
+                        />
+                        <span className="hidden lg:flex lg:items-center">
+                          <span
+                            className="ml-4 text-sm font-semibold leading-6 text-gray-900"
+                            aria-hidden="true"
+                          >
+                            Tom Cook
+                          </span>
+                          <ChevronDownIcon
+                            className="ml-2 h-5 w-5 text-gray-400"
+                            aria-hidden="true"
+                          />
+                        </span>
+                      </Menu.Button>
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                      >
+                        <Menu.Items className="absolute right-0 z-10 mt-2.5 w-36 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
+                          {userNavigation.map((item, index) => (
+                            <Menu.Item key={item.name}>
+                              {({ active }) => (
+                                <span
+                                  href={item.href}
+                                  className={classNames(
+                                    active ? "bg-gray-50" : "",
+                                    "flex items-center font-500 tracking-wide gap-1.5 px-3 py-1 text-sm leading-6 text-gray-600 cursor-pointer hover:bg-orange-500 hover:text-white"
+                                  )}
+                                  onClick={() => handleClickMenuItem(index)}
+                                >
+                                  {item.icon}
+                                  {item.name}
+                                </span>
+                              )}
+                            </Menu.Item>
+                          ))}
+                        </Menu.Items>
+                      </Transition>
+                    </Menu>
                   </div>
-                  {/* <button
-                    onClick={() => setter(!mode)}
-                    className={`flex items-center p-2 rounded-xl ${
-                      mode ? "border-indigo-500" : null
-                    } border`}
-                  >
-                    {mode ? (
-                      <SunIcon className="h-6 w-6 text-indigo-600" />
-                    ) : (
-                      <MoonIcon className="h-6 w-6 text-gray-500" />
-                    )}
-                  </button> */}
                 </div>
               </div>
             </div>

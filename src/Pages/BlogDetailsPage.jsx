@@ -132,7 +132,7 @@ const BlogDetailsPage = () => {
         return handleDeleteComment(commentId);
       case "like":
       case "unlike":
-        return handleUserOpinionOnComment(commentId);
+        return handleUserOpinionOnComment(commentId,actionType);
       default:
         return null;
     }
