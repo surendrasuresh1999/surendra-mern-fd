@@ -6,9 +6,15 @@ import { Avatar } from "@mui/material";
 import ReactTimeAgo from "react-time-ago";
 import { Link, useParams } from "react-router-dom";
 import Loader from "../Common/Loader";
-import { ArrowLeftIcon, ArrowUpRightIcon } from "@heroicons/react/16/solid";
+import {
+  ArrowLeftIcon,
+  ArrowUpRightIcon,
+  HeartIcon as Filled,
+} from "@heroicons/react/16/solid";
 import toast from "react-hot-toast";
 import CommentsDrawer from "../Components/CommentsDrawer";
+import { HeartIcon } from "@heroicons/react/24/outline";
+import numeral from "numeral";
 
 const BlogDetailsPage = () => {
   const [blogDataObj, setBlogDataObj] = useState({
@@ -16,6 +22,7 @@ const BlogDetailsPage = () => {
     data: {},
     error: false,
   });
+  const userDetails = JSON.parse(localStorage.getItem("blogUserDetails"));
   const [openCommentsSlider, setOpenCommentsSlider] = useState(false);
   const [comment, setComment] = useState("");
   const { id } = useParams();
@@ -132,10 +139,32 @@ const BlogDetailsPage = () => {
         return handleDeleteComment(commentId);
       case "like":
       case "unlike":
-        return handleUserOpinionOnComment(commentId,actionType);
+        return handleUserOpinionOnComment(commentId, actionType);
       default:
         return null;
     }
+  };
+
+  const handleDropLike = (blogId) => {
+    axios
+      .put(`${Baseurl.baseurl}/api/blog/${blogId}`, null, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      })
+      .then((res) => {
+        if (res.data.status === 200) {
+          toast.success(res.data.message);
+          getBlogDetails();
+        } else {
+          toast.error(res.data.message);
+          console.log("res", res);
+        }
+      })
+      .catch((err) => {
+        console.log("Error", err.message);
+        toast.error(err.message);
+      });
   };
 
   return (
@@ -171,9 +200,21 @@ const BlogDetailsPage = () => {
                   </span>
                 </div>
               </div>
-              <div>
+              <div className="flex gap-2 flex-row-reverse">
                 <button className="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">
                   {blogDataObj.data?.categorey}
+                </button>
+                <button
+                  onClick={() => handleDropLike(blogDataObj.data._id)}
+                  className="flex items-center gap-1 rounded-md bg-transparent px-3 py-2 text-sm font-semibold text-indigo-600 "
+                >
+                  {blogDataObj.data?.likedUsers.includes(userDetails._id) ? (
+                    <Filled className="text-orange-500 h-6 w-6" />
+                  ) : (
+                    <HeartIcon className="text-orange-500 h-6 w-6" />
+                  )}
+                  {blogDataObj.data?.likedUsers.length > 0 &&
+                    numeral(blogDataObj.data?.likedUsers.length).format("0,a")}
                 </button>
               </div>
             </div>

@@ -6,6 +6,11 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Avatar } from "@mui/material";
 import ReactTimeAgo from "react-time-ago";
+import { Baseurl } from "../BaseUrl";
+import Cookies from "js-cookie";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { BeatLoader } from "react-spinners";
 
 const navbar = [
   {
@@ -42,9 +47,44 @@ function classNames(...classes) {
 const Navbar = ({ mode, setter }) => {
   const [open, setOpen] = useState(false);
   const [openSideBar, setOpenSideBar] = useState(false);
+  const [userTrackData, setUserTrackData] = useState({
+    isFetching: true,
+    data: [],
+  });
   const location = useLocation();
   const navigate = useNavigate();
+  const jwtToken = Cookies.get("jwtToken");
   const userDetails = JSON.parse(localStorage.getItem("blogUserDetails"));
+
+  useEffect(() => {
+    let source = axios.CancelToken.source();
+    if (openSideBar) {
+      axios
+        .get(`${Baseurl.baseurl}/api/user`, {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+          cancelToken: source.token,
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            setUserTrackData({ isFetching: false, data: res.data.blogs });
+          } else {
+            toast.error(res.data.message);
+            console.log("res", res);
+          }
+        })
+        .catch((err) => {
+          console.log("Error", err.message);
+          toast.error(err.message);
+        });
+    }
+    return () => {
+      // befor hitting the api this clean up will called and when the component is unmounted then this clean up will be called
+      source.cancel("Component unmounted");
+    };
+  }, [openSideBar]);
+
   const openSlideOverProfile = () => {
     return (
       <Transition.Root show={openSideBar} as={Fragment}>
@@ -117,14 +157,32 @@ const Navbar = ({ mode, setter }) => {
                         </div>
                       </div>
                       <div className="relative flex-1 px-4 sm:px-6 overflow-y-auto max-w-md break-words">
-                        <ul className="grid grid-cols-2 gap-4 py-4">
-                          {[1, 2, 3, 4].map((card, i) => (
+                        {userTrackData.isFetching ? (
+                          <div className="flex items-center justify-center py-10">
+                            <BeatLoader color="#37c45d" size={20} />
+                          </div>
+                        ) : (
+                          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4">
+                            <li
+                              className={`relative flex items-center gap-1.5 rounded-lg border border-gray-300 px-6 py-4 shadow focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2`}
+                            >
+                              <span className="text-gray-600 font-500 text-18size">
+                                Total Blogs:{" "}
+                              </span>
+                              <span className="text-gray-600 font-500 text-16size">
+                                {userTrackData.data}
+                              </span>
+                            </li>
+                            {/* {[1, 2, 3, 4].map((card, i) => (
                             <li
                               key={i}
                               className={`relative flex items-center space-x-3 rounded-lg border border-gray-300 px-6 py-4 shadow focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2`}
-                            >{card}</li>
-                          ))}
-                        </ul>
+                            >
+                              {card}
+                            </li>
+                          ))} */}
+                          </ul>
+                        )}
                       </div>
                     </div>
                   </Dialog.Panel>

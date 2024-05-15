@@ -50,7 +50,6 @@ const MyActivityPage = () => {
   }, []);
 
   const handleToDeleteBlog = (blogId) => {
-    console.log("handleToDeleteBlog", blogId);
     swal({
       title: "Are you sure!",
       icon: "warning",
