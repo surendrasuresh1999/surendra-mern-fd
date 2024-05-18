@@ -49,9 +49,9 @@ const BlogCard = ({ blog, showDeleteBtn, handler }) => {
           gutterBottom
           variant="h5"
           component="h1"
-          className="truncate dark:text-white"
+          className="truncate text-black"
         >
-          {blog.title}
+          {blog.title.charAt(0).toUpperCase() + blog.title.slice(1)}
         </Typography>
         <div>
           <div

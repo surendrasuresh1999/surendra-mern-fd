@@ -1,32 +1,25 @@
 import { PlusCircleIcon } from "@heroicons/react/20/solid";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CreateBlogDialog from "../Components/CreateBlogDialog";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import { Link } from "react-router-dom";
-import { Avatar, CardHeader } from "@mui/material";
 import axios from "axios";
 import { Baseurl } from "../BaseUrl";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
-import ReactTimeAgo from "react-time-ago";
 import Loader from "../Common/Loader";
-import { context } from "./CommonPage";
 import { Zoom } from "react-awesome-reveal";
 import NoDataFound from "../Common/NoDataFoun";
 import BlogCard from "../Components/BlogCard";
+import CategoryDropDown from "../Components/CategoryDropDown";
 
 const HomePage = () => {
   const [isOpenDialog, setIsOpenDialog] = useState(false);
-  const mode = useContext(context);
+  const [selected, setSelected] = useState(null);
   const [blogDataObj, setBlogDataObj] = useState({
     isFetching: true,
     data: [],
     error: false,
   });
+  const [blogsArray, setBlogDataArray] = useState([]);
   const jwtToken = Cookies.get("jwtToken");
   const getAllBlogPosts = () => {
     axios
@@ -37,12 +30,12 @@ const HomePage = () => {
       })
       .then((res) => {
         if (res.status === 200) {
-          // console.log(res.data);
           setBlogDataObj({
             ...blogDataObj,
             isFetching: false,
             data: res.data.posts,
           });
+          setBlogDataArray(res.data.posts);
         } else {
           toast.error(res.data.message);
           setBlogDataObj({ ...blogDataObj, isFetching: false, data: [] });
@@ -82,7 +75,6 @@ const HomePage = () => {
         } else {
           toast.error(res.data.message);
           getAllBlogPosts();
-          console.log("res", res);
         }
       })
       .catch((err) => {
@@ -92,13 +84,37 @@ const HomePage = () => {
       });
   };
 
+  useEffect(() => {
+    if (selected !== null) {
+      const filtered = blogsArray.filter(
+        (obj) => obj.categorey === selected.label
+      );
+      setBlogDataObj({
+        ...blogDataObj,
+        isFetching: false,
+        data: filtered,
+      });
+    } else {
+      setBlogDataObj({
+        ...blogDataObj,
+        isFetching: false,
+        data: blogsArray,
+      });
+    }
+  }, [selected]);
+
   return (
-    <div className="space-y-3">
-      <div className="flex justify-end py-1">
+    <div className="space-y-6">
+      <div className="flex justify-end py-2 px-2 gap-3 rounded-md shadow">
+        <CategoryDropDown
+          category={selected}
+          setCategory={setSelected}
+          showLastOption={true}
+        />
         <button
           onClick={() => setIsOpenDialog(true)}
           type="button"
-          className="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100 flex items-center gap-1"
+          className="rounded-md bg-indigo-50  px-3 py-2 text-sm font-semibold text-indigo-600 border border-indigo-400 shadow-sm hover:bg-indigo-100 flex items-center gap-1"
         >
           <PlusCircleIcon className="h-5 w-5 text-indigo-600" />
           Create blog
@@ -113,7 +129,7 @@ const HomePage = () => {
             className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
           >
             {blogDataObj.data?.map((blog, idx) => (
-              <Zoom key={idx}>
+              <Zoom key={idx} triggerOnce={true}>
                 <li key={idx}>
                   <BlogCard
                     blog={blog}
@@ -126,11 +142,17 @@ const HomePage = () => {
           </ul>
         ) : (
           <div className="flex flex-col items-center">
-            <NoDataFound title={"No data found at this moment"} />
+            <NoDataFound
+              title={
+                selected === null
+                  ? "No data found at this moment"
+                  : `No data found on ${selected.label} category`
+              }
+            />
             <button
               onClick={() => setIsOpenDialog(true)}
               type="button"
-              className="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100 flex items-center gap-1"
+              className="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100 flex items-center gap-1 mt-2"
             >
               <PlusCircleIcon className="h-5 w-5 text-indigo-600" />
               Create blog

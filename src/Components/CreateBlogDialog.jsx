@@ -22,10 +22,11 @@ import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import UploaderWidget from "./UploaderWidget";
 import { ChevronUpDownIcon } from "@heroicons/react/24/outline";
-import { Listbox, RadioGroup, Transition as Headless } from "@headlessui/react";
+import { Listbox, Transition as Headless } from "@headlessui/react";
 import toast from "react-hot-toast";
 import { categoryOptions } from "../StaticData";
 import { context } from "../Pages/CommonPage";
+import CategoryDropDown from "./CategoryDropDown";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -42,13 +43,7 @@ const CreateBlogDialog = ({ openDialog, setter, handler }) => {
     url: "",
   });
   const ConfigurationObj = {
-    buttons: [
-      "bold",
-      "italic",
-      "underline",
-      "fontsize",
-      "font",
-    ],
+    buttons: ["bold", "italic", "underline", "fontsize", "font"],
     toolbarAdaptive: false,
     height: "200px",
     hidePoweredByJodit: true,
@@ -105,79 +100,8 @@ const CreateBlogDialog = ({ openDialog, setter, handler }) => {
     } else {
       toast.error("Please select all fields are mandatory");
     }
-    // call the create post api method here
   };
-  const handleSelectedChange = (selectedValue) => {
-    setCategory(selectedValue);
-  };
-  const categoryDropDownUi = () => {
-    return (
-      <div className="w-56">
-        <Listbox value={category} onChange={handleSelectedChange}>
-          <div className="relative ">
-            <Listbox.Button
-              className={`relative w-full cursor-default rounded-md ${
-                mode ? "bg-black" : "bg-white"
-              } border py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm`}
-            >
-              <span
-                className={`flex items-center gap-1 truncate font-medium ${
-                  mode ? "text-white" : "text-black"
-                }`}
-              >
-                {category === null ? "Choose category" : <>{category.label}</>}
-              </span>
 
-              <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                <ChevronUpDownIcon
-                  className="h-5 w-5 text-gray-400"
-                  aria-hidden="true"
-                />
-              </span>
-            </Listbox.Button>
-            <Headless
-              as={Fragment}
-              leave="transition ease-in duration-100"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Listbox.Options
-                className={`absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md ${
-                  mode ? "bg-black" : "bg-white"
-                } py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm`}
-              >
-                {categoryOptions.map((person, personIdx) => (
-                  <Listbox.Option
-                    key={personIdx}
-                    className={({ active }) =>
-                      `relative cursor-default hover:bg-gray-500 select-none  py-2 px-4  ${
-                        active ? "bg-blue-100 text-gray-900" : "text-gray-900"
-                      }`
-                    }
-                    value={person}
-                  >
-                    {({ selected }) => (
-                      <>
-                        <span
-                          className={`truncate flex items-center ${
-                            mode ? "text-white" : "text-gray-900"
-                          } ${
-                            selected ? "font-medium" : "font-normal"
-                          }`}
-                        >
-                          {person.label}
-                        </span>
-                      </>
-                    )}
-                  </Listbox.Option>
-                ))}
-              </Listbox.Options>
-            </Headless>
-          </div>
-        </Listbox>
-      </div>
-    );
-  };
   return (
     <Dialog
       open={openDialog}
@@ -205,7 +129,11 @@ const CreateBlogDialog = ({ openDialog, setter, handler }) => {
           Create a new Blog
         </span>
         <div className="flex items-center gap-2">
-          {categoryDropDownUi()}
+          <CategoryDropDown
+            category={category}
+            setCategory={setCategory}
+            showLastOption={false}
+          />
           <span className="cursor-pointer" onClick={() => setter(false)}>
             <XCircle color={mode ? "#FFF" : "#393939"} />
           </span>
@@ -229,11 +157,17 @@ const CreateBlogDialog = ({ openDialog, setter, handler }) => {
               }
               type="text"
               id="title"
-              className={`rounded-md outline-none ${mode?"text-white":"text-black"} bg-transparent`}
+              className={`rounded-md outline-none ${
+                mode ? "text-white" : "text-black"
+              } bg-transparent`}
             />
           </div>
           <div>
-            <span className={`text-14size py-1 sm:text-16size font-500 flex items-center justify-between ${mode?"text-white":"text-gray-600"}`}>
+            <span
+              className={`text-14size py-1 sm:text-16size font-500 flex items-center justify-between ${
+                mode ? "text-white" : "text-gray-600"
+              }`}
+            >
               Blog Content
             </span>
             <JoditEditor
@@ -242,11 +176,13 @@ const CreateBlogDialog = ({ openDialog, setter, handler }) => {
               }
               value={uploadData.description}
               config={ConfigurationObj}
-              className={mode?"darkMode":"lighMode"}
+              className={mode ? "darkMode" : "lighMode"}
             />
             <div className="py-2">
               {showWidget ? (
-                <p className={`${mode?"text-white":"text-black"}`}>This is Choosen file: {uploadedFileName}</p>
+                <p className={`${mode ? "text-white" : "text-black"}`}>
+                  This is Choosen file: {uploadedFileName}
+                </p>
               ) : (
                 <button
                   onClick={() => {
