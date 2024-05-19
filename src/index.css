@@ -26,3 +26,32 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.full-bleed{
+  box-shadow: 0 0 0 100vmax #f8fafc;
+  clip-path: inset(0 -100vmax);
+}
+.discover{
+  background-color: #f8fafc;
+}
+
+.embla {
+  overflow: hidden;
+}
+
+.embla__container {
+  display: flex;
+}
+
+.embla__slide {
+  flex: 0 0 calc(60% - 13.333px);
+  min-width: 0;
+  margin: 0px 14px;
+}
+
+@media screen and (min-width:1024px){
+  .embla__slide {
+    flex: 0 0 calc(33.333% - 13.333px);
+    min-width: 0;
+    margin: 0px 14px;
+  }
+}

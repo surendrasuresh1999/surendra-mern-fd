@@ -1,3 +1,10 @@
+import sportImage from "../assets/sports.png";
+import Technology from "../assets/robotic-hand.png";
+import Education from "../assets/education.png";
+import Science from "../assets/flask.png";
+import Entertainment from "../assets/popcorn.png";
+import Other from "../assets/other.png";
+
 export const indianStatesArray = [
   "Andaman and Nicobar Islands",
   "Andhra Pradesh",
@@ -50,82 +57,41 @@ export const sizesObj = [
   "3XL",
 ];
 
-const sizeChartData = [
-  {
-    Size: "S",
-    Chest: 38,
-    "Brand Size": "S",
-    Shoulder: 17.5,
-    Length: 27.5,
-    "Sleeve Length": 24,
-    Neck: 16.5,
-  },
-  {
-    Size: "M",
-    Chest: 40,
-    "Brand Size": "M",
-    Shoulder: 18,
-    Length: 28,
-    "Sleeve Length": 24,
-    Neck: 17,
-  },
-  {
-    Size: "L",
-    Chest: 42,
-    "Brand Size": "L",
-    Shoulder: 18.5,
-    Length: 29,
-    "Sleeve Length": 25,
-    Neck: 17,
-  },
-  {
-    Size: "XL",
-    Chest: 44,
-    "Brand Size": "XL",
-    Shoulder: 19,
-    Length: 30,
-    "Sleeve Length": 25,
-    Neck: 17,
-  },
-  {
-    Size: "XXL",
-    Chest: 46,
-    "Brand Size": "XXL",
-    Shoulder: 19.5,
-    Length: 30.75,
-    "Sleeve Length": 25,
-  },
-];
-
 export const categoryOptions = [
   {
     id: 0,
     value: "00",
     label: "Sports",
+    img: sportImage,
   },
   {
     id: 1,
     value: "01",
     label: "Technology",
+    img: Technology,
   },
   {
     id: 2,
     value: "02",
     label: "Education",
+    img: Education,
   },
   {
     id: 3,
     value: "03",
     label: "Science",
+    img: Science,
   },
   {
     id: 4,
     value: "04",
     label: "Entertainment",
+    img: Entertainment,
   },
   {
     id: 5,
     value: "05",
     label: "Other",
+    img: Other,
   },
 ];
