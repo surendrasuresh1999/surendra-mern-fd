@@ -64,7 +64,7 @@ const BlogCard = ({ blog, showDeleteBtn, handler }) => {
       </CardContent>
       <CardActions className="flex items-center justify-between">
         <Link
-          to={`blog/${blog._id}`}
+          to={`${blog._id}`}
           className="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100"
         >
           Read More

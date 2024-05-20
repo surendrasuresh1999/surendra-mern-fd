@@ -16,7 +16,7 @@ const navbar = [
   {
     id: 1,
     name: "Blogs",
-    pathValue: "/",
+    pathValue: "/blogs",
   },
   {
     id: 2,
@@ -315,14 +315,14 @@ const Navbar = ({ mode, setter }) => {
 
               {/* Logo */}
               <div className="ml-4 lg:ml-0">
-                <a href="#">
+                <Link to="/">
                   <span className="sr-only">Your Company</span>
                   <img
                     className="h-8 w-auto"
                     src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                     alt=""
                   />
-                </a>
+                </Link>
               </div>
 
               <ul className="hidden sm:flex items-center gap-4 ml-4">

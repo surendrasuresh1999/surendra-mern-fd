@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { context } from "../Pages/CommonPage";
+import { ArrowUpIcon } from "@heroicons/react/20/solid";
 
 const navigation = {
   main: [
@@ -115,6 +116,12 @@ const Footer = () => {
           &copy; 2020 Your Company, Inc. All rights reserved.
         </p>
       </div>
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        className="absolute bottom-10 right-6 animate-bounce border border-slate-400 bg-slate-100 rounded-full p-2"
+      >
+        <ArrowUpIcon className="h-6 w-6 text-indigo-600" />
+      </button>
     </footer>
   );
 };

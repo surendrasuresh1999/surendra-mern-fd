@@ -11,7 +11,7 @@ import NoDataFound from "../Common/NoDataFoun";
 import BlogCard from "../Components/BlogCard";
 import CategoryDropDown from "../Components/CategoryDropDown";
 
-const HomePage = () => {
+const BlogsPage = () => {
   const [isOpenDialog, setIsOpenDialog] = useState(false);
   const [selected, setSelected] = useState(null);
   const [blogDataObj, setBlogDataObj] = useState({
@@ -21,6 +21,7 @@ const HomePage = () => {
   });
   const [blogsArray, setBlogDataArray] = useState([]);
   const jwtToken = Cookies.get("jwtToken");
+
   const getAllBlogPosts = () => {
     axios
       .get(`${Baseurl.baseurl}/api/blog`, {
@@ -38,12 +39,22 @@ const HomePage = () => {
           setBlogDataArray(res.data.posts);
         } else {
           toast.error(res.data.message);
-          setBlogDataObj({ ...blogDataObj, isFetching: false, data: [] });
+          setBlogDataObj({
+            ...blogDataObj,
+            isFetching: false,
+            data: [],
+            error: true,
+          });
           console.log("res", res);
         }
       })
       .catch((err) => {
-        setBlogDataObj({ ...blogDataObj, isFetching: false, data: [] });
+        setBlogDataObj({
+          ...blogDataObj,
+          isFetching: false,
+          data: [],
+          error: false,
+        });
         console.log("Error", err.message);
         toast.error(err.message);
       });
@@ -171,4 +182,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default BlogsPage;
