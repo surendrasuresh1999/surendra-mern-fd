@@ -34,6 +34,7 @@ const navbar = [
     pathValue: "/authors",
   },
 ];
+
 const userNavigation = [
   { name: "My activity", icon: <Activity size={18} /> },
   { name: "My profile", icon: <CircleUserRoundIcon size={18} /> },
@@ -218,6 +219,7 @@ const Navbar = ({ mode, setter }) => {
           .then((willDelete) => {
             if (willDelete) {
               localStorage.removeItem("blogUserDetails");
+              Cookies.remove("jwtToken");
               navigate("/login");
             }
           })

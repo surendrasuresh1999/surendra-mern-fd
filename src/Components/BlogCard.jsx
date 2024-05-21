@@ -5,7 +5,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import ReactTimeAgo from "react-time-ago";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Avatar, CardHeader, IconButton } from "@mui/material";
 import { TrashIcon } from "@heroicons/react/16/solid";
 

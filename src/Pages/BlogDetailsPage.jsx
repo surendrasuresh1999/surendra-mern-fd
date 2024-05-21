@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import { Baseurl } from "../BaseUrl";
 import { Avatar } from "@mui/material";
 import ReactTimeAgo from "react-time-ago";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Loader from "../Common/Loader";
 import {
   ArrowLeftIcon,
@@ -26,6 +26,7 @@ const BlogDetailsPage = () => {
   const [openCommentsSlider, setOpenCommentsSlider] = useState(false);
   const [comment, setComment] = useState("");
   const { id } = useParams();
+  const navigate = useNavigate();
   const jwtToken = Cookies.get("jwtToken");
 
   const getBlogDetails = () => {
@@ -173,7 +174,7 @@ const BlogDetailsPage = () => {
         <Loader />
       ) : (
         <div className="space-y-4">
-          <h1 className="text-black dark:text-white text-18size sm:text-24size font-600 tracking-wide">
+          <h1 className="text-black dark:text-white text-18size sm:text-30size font-600 tracking-wide">
             {blogDataObj.data.title}
           </h1>
           <img
@@ -208,13 +209,13 @@ const BlogDetailsPage = () => {
                   onClick={() => handleDropLike(blogDataObj.data._id)}
                   className="flex items-center gap-1 rounded-md bg-transparent px-3 py-2 text-sm font-semibold text-indigo-600 "
                 >
-                  {blogDataObj.data?.likedUsers.includes(userDetails._id) ? (
+                  {blogDataObj.data?.likedUsers?.includes(userDetails._id) ? (
                     <Filled className="text-orange-500 h-6 w-6" />
                   ) : (
                     <HeartIcon className="text-orange-500 h-6 w-6" />
                   )}
-                  {blogDataObj.data?.likedUsers.length > 0 &&
-                    numeral(blogDataObj.data?.likedUsers.length).format("0,a")}
+                  {blogDataObj.data?.likedUsers?.length > 0 &&
+                    numeral(blogDataObj.data?.likedUsers?.length).format("0,a")}
                 </button>
               </div>
             </div>
@@ -257,13 +258,13 @@ const BlogDetailsPage = () => {
               </button>
             </div>
           </div>
-          <Link
-            to={"/"}
+          <button
+            onClick={() => navigate(-1)}
             className="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100 flex items-center gap-2 max-w-max"
           >
             <ArrowLeftIcon className="h-4 w-4 text-indigo-700" />
             Go Back
-          </Link>
+          </button>
         </div>
       )}
       {openCommentsSlider && (

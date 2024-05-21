@@ -25,7 +25,7 @@ const App = () => {
           <Route path="authors" element={<AuthorsPage />} />
           <Route path="my-activity" element={<MyActivityPage />} />
           <Route path="blogs/:id" element={<BlogDetailsPage />} />
-          <Route path="my-activity/blogs/:id" element={<BlogDetailsPage />} />
+          <Route path="my-activity/:id" element={<BlogDetailsPage />} />
           <Route path="jokes" element={<JokesPage />} />
           <Route path="quotes" element={<QuotesPage />} />
         </Route>

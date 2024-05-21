@@ -33,8 +33,8 @@ const BlogsPage = () => {
         if (res.status === 200) {
           setBlogDataObj({
             ...blogDataObj,
-            isFetching: false,
             data: res.data.posts,
+            isFetching: false,
           });
           setBlogDataArray(res.data.posts);
         } else {
