@@ -7,6 +7,7 @@ import Loader from "../Common/Loader";
 import { Avatar } from "@mui/material";
 import ReactTimeAgo from "react-time-ago";
 import { context } from "./CommonPage";
+import NoDataFound from "../Common/NoDataFoun";
 
 const AuthorsPage = () => {
   const mode = useContext(context);
@@ -20,7 +21,7 @@ const AuthorsPage = () => {
     axios
       .get(`${Baseurl.baseurl}/api/user/all`, {
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjMzMWNlMDc3M2ExOGUzZmIxY2FkOTEiLCJpYXQiOjE3MTQ2MjU3NjAsImV4cCI6MTcxNDg4NDk2MH0.fecs-cvkFOOF_RbhzQQwphMQIfNkg9Oa5e4s8ZUHUj0`,
+          Authorization: `Bearer ${jwtToken}`,
         },
       })
       .then((res) => {
@@ -96,7 +97,9 @@ const AuthorsPage = () => {
           ))}
         </ul>
       ) : (
-        <div>No data found</div>
+        <div className="flex flex-col items-center">
+          <NoDataFound title={"No authores data found at this moment"} />
+        </div>
       )}
     </div>
   );

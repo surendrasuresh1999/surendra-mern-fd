@@ -5,7 +5,7 @@ import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
 const CategoryDropDown = ({ category, setCategory, showLastOption }) => {
   return (
-    <div className="w-56">
+    <div className="w-56 grow sm:grow-0">
       <Listbox
         value={category}
         onChange={(e) => {

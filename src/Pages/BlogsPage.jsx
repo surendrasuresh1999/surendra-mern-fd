@@ -33,8 +33,8 @@ const BlogsPage = () => {
         if (res.status === 200) {
           setBlogDataObj({
             ...blogDataObj,
-            data: res.data.posts,
             isFetching: false,
+            data: res.data.posts,
           });
           setBlogDataArray(res.data.posts);
         } else {
@@ -43,8 +43,9 @@ const BlogsPage = () => {
             ...blogDataObj,
             isFetching: false,
             data: [],
-            error: true,
+            // error: true,
           });
+          setBlogDataArray([]);
           console.log("res", res);
         }
       })
@@ -53,7 +54,7 @@ const BlogsPage = () => {
           ...blogDataObj,
           isFetching: false,
           data: [],
-          error: false,
+          // error: false,
         });
         console.log("Error", err.message);
         toast.error(err.message);

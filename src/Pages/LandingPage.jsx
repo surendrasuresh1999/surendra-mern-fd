@@ -153,7 +153,7 @@ const LandingPage = () => {
                   {feature.name}
                 </dt>
                 <dd className="mt-1 flex flex-auto flex-col text-base leading-7 text-black">
-                  <p className="flex-auto text-justify sm:text-pretty">
+                  <p className="flex-auto text-justify sm:text-pretty leading-6">
                     {feature.description}
                   </p>
                   <p className="mt-4">

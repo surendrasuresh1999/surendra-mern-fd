@@ -18,7 +18,9 @@ const CommonPage = () => {
               location.pathname === "/" ? "py-0" : "py-6"
             } sm:px-6 lg:px-8`}
           >
-            <Outlet />
+            <section>
+              <Outlet />
+            </section>
           </main>
           <Footer />
         </div>
