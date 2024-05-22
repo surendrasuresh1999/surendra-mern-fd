@@ -48,6 +48,7 @@ const AuthorsPage = () => {
   useEffect(() => {
     getAllAuthors();
   }, []);
+  
   return (
     <div>
       {blogDataObj.isFetching ? (
