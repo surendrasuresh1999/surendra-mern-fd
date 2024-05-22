@@ -16,15 +16,9 @@ import { Loader, XCircle } from "lucide-react";
 import JoditEditor from "jodit-react";
 import {
   ArrowUpTrayIcon,
-  ExclamationCircleIcon,
 } from "@heroicons/react/16/solid";
-import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
-import UploaderWidget from "./UploaderWidget";
-import { ChevronUpDownIcon } from "@heroicons/react/24/outline";
-import { Listbox, Transition as Headless } from "@headlessui/react";
 import toast from "react-hot-toast";
-import { categoryOptions } from "../StaticData";
 import { context } from "../Pages/CommonPage";
 import CategoryDropDown from "./CategoryDropDown";
 
@@ -86,7 +80,7 @@ const CreateBlogDialog = ({ openDialog, setter, handler }) => {
           setShowWidget(true);
         } else {
           if (error !== undefined || error !== null) {
-            console.log("Error uploading image:", error);
+            // console.log("Error uploading image:", error);
           }
           setShowLoader(false);
         }

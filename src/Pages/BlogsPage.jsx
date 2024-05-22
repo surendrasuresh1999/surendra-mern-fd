@@ -1,5 +1,5 @@
 import { PlusCircleIcon } from "@heroicons/react/20/solid";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import CreateBlogDialog from "../Components/CreateBlogDialog";
 import axios from "axios";
 import { Baseurl } from "../BaseUrl";
@@ -10,60 +10,27 @@ import { Zoom } from "react-awesome-reveal";
 import NoDataFound from "../Common/NoDataFoun";
 import BlogCard from "../Components/BlogCard";
 import CategoryDropDown from "../Components/CategoryDropDown";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import ConnectionLost from "../Common/ConnectionLost";
 
 const BlogsPage = () => {
   const [isOpenDialog, setIsOpenDialog] = useState(false);
   const [selected, setSelected] = useState(null);
-  const [blogDataObj, setBlogDataObj] = useState({
-    isFetching: true,
-    data: [],
-    error: false,
-  });
-  const [blogsArray, setBlogDataArray] = useState([]);
   const jwtToken = Cookies.get("jwtToken");
+  const queryClient = useQueryClient();
 
-  const getAllBlogPosts = () => {
-    axios
-      .get(`${Baseurl.baseurl}/api/blog`, {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          setBlogDataObj({
-            ...blogDataObj,
-            isFetching: false,
-            data: res.data.posts,
-          });
-          setBlogDataArray(res.data.posts);
-        } else {
-          toast.error(res.data.message);
-          setBlogDataObj({
-            ...blogDataObj,
-            isFetching: false,
-            data: [],
-            // error: true,
-          });
-          setBlogDataArray([]);
-          console.log("res", res);
-        }
-      })
-      .catch((err) => {
-        setBlogDataObj({
-          ...blogDataObj,
-          isFetching: false,
-          data: [],
-          // error: false,
-        });
-        console.log("Error", err.message);
-        toast.error(err.message);
-      });
+  const getAllBlogs = async () => {
+    return await fetch(`${Baseurl.baseurl}/api/blog`, {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    }).then((res) => res.json());
   };
 
-  useEffect(() => {
-    getAllBlogPosts();
-  }, []);
+  const { isPending, error, data } = useQuery({
+    queryKey: ["blogsData"],
+    queryFn: getAllBlogs,
+  });
 
   const handleCreateNewBlogPost = (postData) => {
     const data = {
@@ -80,40 +47,24 @@ const BlogsPage = () => {
       })
       .then((res) => {
         if (res.status === 200) {
-          // console.log(res.data);
-          getAllBlogPosts();
+          queryClient.invalidateQueries("blogsData");
           toast.success(res.data.message);
           setIsOpenDialog(false);
         } else {
           toast.error(res.data.message);
-          getAllBlogPosts();
+          queryClient.invalidateQueries("blogsData");
         }
       })
       .catch((err) => {
-        getAllBlogPosts();
+        queryClient.invalidateQueries("blogsData");
         console.log("Error", err.message);
         toast.error(err.message);
       });
   };
 
-  useEffect(() => {
-    if (selected !== null) {
-      const filtered = blogsArray.filter(
-        (obj) => obj.categorey === selected.label
-      );
-      setBlogDataObj({
-        ...blogDataObj,
-        isFetching: false,
-        data: filtered,
-      });
-    } else {
-      setBlogDataObj({
-        ...blogDataObj,
-        isFetching: false,
-        data: blogsArray,
-      });
-    }
-  }, [selected]);
+  const filteredRecords = selected
+    ? data?.posts.filter((post) => post.categorey === selected.label)
+    : data?.posts;
 
   return (
     <div className="space-y-6">
@@ -128,19 +79,20 @@ const BlogsPage = () => {
           type="button"
           className="rounded-md bg-indigo-50  px-3 py-2 text-sm font-semibold text-indigo-600 border border-indigo-400 shadow-sm hover:bg-indigo-100 flex items-center gap-1"
         >
-          <PlusCircleIcon className="h-5 w-5 text-indigo-600" />
           Create blog
         </button>
       </div>
       <div>
-        {blogDataObj.isFetching ? (
+        {isPending ? (
           <Loader />
-        ) : blogDataObj.data?.length > 0 ? (
+        ) : error ? (
+          <ConnectionLost />
+        ) : filteredRecords.length > 0 ? (
           <ul
             role="list"
             className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
           >
-            {blogDataObj.data?.map((blog, idx) => (
+            {filteredRecords.map((blog, idx) => (
               <Zoom key={idx} triggerOnce={true}>
                 <li key={idx}>
                   <BlogCard
@@ -161,14 +113,16 @@ const BlogsPage = () => {
                   : `No data found on ${selected.label} category`
               }
             />
-            <button
-              onClick={() => setIsOpenDialog(true)}
-              type="button"
-              className="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100 flex items-center gap-1 mt-2"
-            >
-              <PlusCircleIcon className="h-5 w-5 text-indigo-600" />
-              Create blog
-            </button>
+            {selected === null && (
+              <button
+                onClick={() => setIsOpenDialog(true)}
+                type="button"
+                className="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100 flex items-center gap-1 mt-2"
+              >
+                <PlusCircleIcon className="h-5 w-5 text-indigo-600" />
+                Create blog
+              </button>
+            )}
           </div>
         )}
       </div>

@@ -59,7 +59,7 @@ const AuthorsPage = () => {
               key={index}
               className={`relative flex items-center space-x-3 rounded-lg border border-gray-300 ${
                 mode ? "bg-[#4d4c4c] border-gray-500" : "bg-white"
-              } px-6 py-4 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2`}
+              } px-6 py-4 shadow-sm`}
             >
               <div className="flex-shrink-0">
                 <Avatar sx={{ width: 50, height: 50, fontSize: "24px" }}>
@@ -67,7 +67,7 @@ const AuthorsPage = () => {
                 </Avatar>
               </div>
               <div className="min-w-0 flex-1">
-                <a href="#" className="focus:outline-none">
+                <div className="focus:outline-none">
                   <span className="absolute inset-0" aria-hidden="true" />
                   <p
                     className={`text-20size font-medium ${
@@ -91,7 +91,7 @@ const AuthorsPage = () => {
                       locale="en-US"
                     />
                   </p>
-                </a>
+                </div>
               </div>
             </li>
           ))}

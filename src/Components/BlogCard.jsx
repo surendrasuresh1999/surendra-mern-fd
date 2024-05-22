@@ -57,7 +57,7 @@ const BlogCard = ({ blog, showDeleteBtn, handler }) => {
           <div
             className="dangers"
             dangerouslySetInnerHTML={{
-              __html: blog?.discription + "...",
+              __html: blog?.discription,
             }}
           />
         </div>
