@@ -119,12 +119,6 @@ const CreateBlogDialog = ({ openDialog, setter, handler }) => {
       aria-describedby="alert-dialog-slide-description"
     >
       <DialogTitle
-        // sx={{
-        //   display: "flex",
-        //   alignItems: "center",
-        //   justifyContent: "space-between",
-        //   padding: "8px 24px",
-        // }}
         className={`${
           mode ? "bg-[#4d4c4c]" : "bg-slate-50"
         } flex flex-col sm:flex-row justify-between gap-4`}

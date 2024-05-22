@@ -202,9 +202,6 @@ const BlogDetailsPage = () => {
                 </div>
               </div>
               <div className="flex gap-2 flex-row-reverse">
-                <button className="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">
-                  {blogDataObj.data?.categorey}
-                </button>
                 <button
                   onClick={() => handleDropLike(blogDataObj.data._id)}
                   className="flex items-center gap-1 rounded-md bg-transparent px-3 py-2 text-sm font-semibold text-indigo-600 "

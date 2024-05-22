@@ -11,10 +11,10 @@ const CommonPage = () => {
   return (
     <div className="h-screen">
       <context.Provider value={darkMode}>
-        <div className="relative eshop-home-container bg-white">
+        <div className="relative flex flex-col eshop-home-container bg-white">
           <Navbar mode={darkMode} setter={setDarkMode} />
           <main
-            className={`container mx-auto px-4 ${
+            className={`container grow mx-auto px-4 ${
               location.pathname === "/" ? "py-0" : "py-6"
             } sm:px-6 lg:px-8`}
           >
