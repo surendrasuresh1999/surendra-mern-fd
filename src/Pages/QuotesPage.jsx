@@ -70,28 +70,32 @@ const QuotesPage = () => {
         author: quoteObj.author,
         quote: quoteObj.quote,
       };
-      axios
-        .put(`${Baseurl.baseurl}/api/quote/${quoteId}`, data, {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            toast.success(res.data.message);
-            setQuoteObj({ quote: "", author: "" });
-            setQuoteId("");
-            setEdiatable(false);
-            setOpenDialog(false);
-            queryClient.invalidateQueries("quotesData");
-          } else {
-            toast.error(res.data.message);
-          }
-        })
-        .catch((err) => {
-          console.log("Error", err.message);
-          toast.error(err.message);
-        });
+      if (quoteObj.author !== "" && quoteObj.quote !== "") {
+        axios
+          .put(`${Baseurl.baseurl}/api/quote/${quoteId}`, data, {
+            headers: {
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          })
+          .then((res) => {
+            if (res.status === 200) {
+              toast.success(res.data.message);
+              setQuoteObj({ quote: "", author: "" });
+              setQuoteId("");
+              setEdiatable(false);
+              setOpenDialog(false);
+              queryClient.invalidateQueries("quotesData");
+            } else {
+              toast.error(res.data.message);
+            }
+          })
+          .catch((err) => {
+            console.log("Error", err.message);
+            toast.error(err.message);
+          });
+      } else {
+        toast.error("All fields must be not empty");
+      }
     }
   };
 
