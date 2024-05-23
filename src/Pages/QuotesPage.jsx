@@ -158,6 +158,7 @@ const QuotesPage = () => {
           <button
             onClick={() => {
               setOpenDialog(false);
+              setEdiatable(false);
               setQuoteObj({ quote: "", author: "" });
               setQuoteId("");
             }}
@@ -191,7 +192,7 @@ const QuotesPage = () => {
 
   const handleDropLikeForQuote = (quoteId) => {
     axios
-      .put(`${Baseurl.baseurl}/api/quote/${quoteId}`, null, {
+      .put(`${Baseurl.baseurl}/api/quote/like/${quoteId}`, null, {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
@@ -215,7 +216,7 @@ const QuotesPage = () => {
     swal({
       title: "Are you sure!",
       icon: "warning",
-      text: "Once deleted, you will not be able to recover this Quote!",
+      text: "This action is irreversible. Once deleted, you cannot recover this Quote. Proceed with caution.",
       buttons: true,
       dangerMode: true,
     })

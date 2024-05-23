@@ -41,6 +41,8 @@ const userNavigation = [
   { name: "Log out", icon: <LogOut size={18} /> },
 ];
 
+const trackRecord = ["blogs", "quotes",];
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -50,7 +52,7 @@ const Navbar = ({ mode, setter }) => {
   const [openSideBar, setOpenSideBar] = useState(false);
   const [userTrackData, setUserTrackData] = useState({
     isFetching: true,
-    data: [],
+    data: {},
   });
   const location = useLocation();
   const navigate = useNavigate();
@@ -69,7 +71,7 @@ const Navbar = ({ mode, setter }) => {
         })
         .then((res) => {
           if (res.status === 200) {
-            setUserTrackData({ isFetching: false, data: res.data.blogs });
+            setUserTrackData({ isFetching: false, data: res.data });
           } else {
             toast.error(res.data.message);
             console.log("res", res);
@@ -85,7 +87,6 @@ const Navbar = ({ mode, setter }) => {
       source.cancel("Component unmounted");
     };
   }, [openSideBar]);
-
   const openSlideOverProfile = () => {
     return (
       <Transition.Root show={openSideBar} as={Fragment}>
@@ -164,24 +165,19 @@ const Navbar = ({ mode, setter }) => {
                           </div>
                         ) : (
                           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4">
-                            <li
-                              className={`relative flex items-center gap-1.5 rounded-lg border border-gray-300 px-6 py-4 shadow focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2`}
-                            >
-                              <span className="text-gray-600 font-500 text-18size">
-                                Total Blogs:{" "}
-                              </span>
-                              <span className="text-gray-600 font-500 text-16size">
-                                {userTrackData.data}
-                              </span>
-                            </li>
-                            {/* {[1, 2, 3, 4].map((card, i) => (
-                            <li
-                              key={i}
-                              className={`relative flex items-center space-x-3 rounded-lg border border-gray-300 px-6 py-4 shadow focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2`}
-                            >
-                              {card}
-                            </li>
-                          ))} */}
+                            {trackRecord.map((item, index) => (
+                              <li
+                                key={index}
+                                className={`relative flex items-center gap-1.5 rounded-lg border border-gray-300 px-6 py-4 shadow focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2`}
+                              >
+                                <span className="text-gray-600 font-500 text-18size">
+                                  Total {item}:
+                                </span>
+                                <span className="text-gray-600 font-500 text-16size">
+                                  {userTrackData.data[item]}
+                                </span>
+                              </li>
+                            ))}
                           </ul>
                         )}
                       </div>
