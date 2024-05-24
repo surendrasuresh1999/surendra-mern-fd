@@ -1,6 +1,5 @@
-import React, { useContext, useEffect } from "react";
-import { context } from "../Pages/CommonPage";
-import { ArrowUpIcon } from "@heroicons/react/20/solid";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const navigation = {
   main: [
@@ -77,13 +76,9 @@ const navigation = {
 };
 
 const Footer = () => {
-  const mode = useContext(context);
+
   return (
-    <footer
-      className={`bg-slate-100 dark:bg-neutral-900 border-t relative ${
-        mode && "border-gray-400"
-      }`}
-    >
+    <footer className={`bg-gray-900 relative`}>
       <div className="mx-auto container overflow-hidden px-6 py-10 sm:py-14 lg:px-8">
         <nav
           className="-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12"
@@ -91,10 +86,7 @@ const Footer = () => {
         >
           {navigation.main.map((item) => (
             <div key={item.name} className="pb-6">
-              <a
-                href={item.href}
-                className="text-sm leading-6 text-gray-600 dark:text-white hover:text-gray-900"
-              >
+              <a href={item.href} className="text-sm leading-6 text-white">
                 {item.name}
               </a>
             </div>
@@ -102,26 +94,17 @@ const Footer = () => {
         </nav>
         <div className="mt-10 flex justify-center space-x-10">
           {navigation.social.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className="text-gray-400 hover:text-gray-500 dark:text-white"
-            >
+            <a key={item.name} href={item.href} className="text-white">
               <span className="sr-only">{item.name}</span>
               <item.icon className="h-6 w-6" aria-hidden="true" />
             </a>
           ))}
         </div>
-        <p className="mt-10 text-center text-xs leading-5 text-gray-500 dark:text-white">
+        <p className="mt-10 text-center text-xs leading-5 text-white">
           &copy; 2020 Your Company, Inc. All rights reserved.
         </p>
       </div>
-      {/* <button
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className="absolute bottom-10 right-6 animate-bounce border border-slate-400 bg-slate-100 rounded-full p-2"
-      >
-        <ArrowUpIcon className="h-6 w-6 text-indigo-600" />
-      </button> */}
+     
     </footer>
   );
 };

@@ -258,7 +258,7 @@ const QuotesPage = () => {
   return (
     <>
       <div className="space-y-5">
-        <div className="flex justify-between py-2 px-2 gap-3 rounded-md shadow">
+        <div className="flex justify-between py-2 px-2 gap-3 rounded-md shadow bg-white">
           <div className="grow">
             <input
               value={searchedString}

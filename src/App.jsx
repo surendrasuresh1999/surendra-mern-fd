@@ -5,7 +5,6 @@ import SignupPage from "./Pages/SignupPage";
 import CommonPage from "./Pages/CommonPage";
 import PageNotFound from "./Pages/PageNotFound";
 import AuthorsPage from "./Pages/AuthorsPage";
-import JokesPage from "./Pages/JokesPage";
 import QuotesPage from "./Pages/QuotesPage";
 import BlogDetailsPage from "./Pages/BlogDetailsPage";
 import ProtectedRoute from "./Pages/ProtectedRoute";
@@ -26,7 +25,6 @@ const App = () => {
           <Route path="my-activity" element={<MyActivityPage />} />
           <Route path="blogs/:id" element={<BlogDetailsPage />} />
           <Route path="my-activity/:id" element={<BlogDetailsPage />} />
-          <Route path="jokes" element={<JokesPage />} />
           <Route path="quotes" element={<QuotesPage />} />
         </Route>
       </Route>

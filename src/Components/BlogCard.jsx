@@ -11,7 +11,7 @@ import { TrashIcon } from "@heroicons/react/16/solid";
 
 const BlogCard = ({ blog, showDeleteBtn, handler }) => {
   return (
-    <Card className="card">
+    <Card className="card flex flex-col">
       <CardHeader
         avatar={
           <Avatar aria-label="recipe">
@@ -44,7 +44,7 @@ const BlogCard = ({ blog, showDeleteBtn, handler }) => {
         }
       />
       <CardMedia sx={{ height: 200 }} image={blog.imageUrl} />
-      <CardContent>
+      <CardContent sx={{ height: 180 }}>
         <Typography
           gutterBottom
           variant="h5"

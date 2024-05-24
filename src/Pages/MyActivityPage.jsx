@@ -9,6 +9,7 @@ import BlogCard from "../Components/BlogCard";
 import NoDataFound from "../Common/NoDataFoun";
 import { PlusCircleIcon } from "lucide-react";
 import swal from "sweetalert";
+
 const MyActivityPage = () => {
   const [blogDataObj, setBlogDataObj] = useState({
     isFetching: true,
@@ -97,7 +98,7 @@ const MyActivityPage = () => {
           className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
           {blogDataObj.data?.map((blog, idx) => (
-            <Zoom key={idx}>
+            <Zoom key={idx} triggerOnce={true}>
               <li key={idx}>
                 <BlogCard
                   blog={blog}

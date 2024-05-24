@@ -26,7 +26,6 @@ const AuthorsPage = () => {
       })
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data);
           setBlogDataObj({
             ...blogDataObj,
             isFetching: false,
@@ -54,7 +53,7 @@ const AuthorsPage = () => {
       {blogDataObj.isFetching ? (
         <Loader />
       ) : blogDataObj.data?.length > 0 ? (
-        <ul role="list" className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <ul role="list" className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {blogDataObj.data?.map((person, index) => (
             <li
               key={index}

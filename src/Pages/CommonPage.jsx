@@ -8,10 +8,11 @@ export const context = createContext();
 const CommonPage = () => {
   const [darkMode, setDarkMode] = useState(false);
   const location = useLocation();
+
   return (
-    <div className="h-screen">
+    <div className="h-screen relative">
       <context.Provider value={darkMode}>
-        <div className="relative flex flex-col eshop-home-container bg-white">
+        <div className="relative flex flex-col eshop-home-container bg-slate-50">
           <Navbar mode={darkMode} setter={setDarkMode} />
           <main
             className={`container grow mx-auto px-4 ${

@@ -68,7 +68,7 @@ const BlogsPage = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-end py-2 px-2 gap-3 rounded-md shadow">
+      <div className="flex justify-end py-2 px-2 gap-3 rounded-md shadow bg-white">
         <CategoryDropDown
           category={selected}
           setCategory={setSelected}

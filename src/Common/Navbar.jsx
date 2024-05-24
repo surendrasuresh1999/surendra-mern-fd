@@ -20,16 +20,11 @@ const navbar = [
   },
   {
     id: 2,
-    name: "Jokes",
-    pathValue: "/jokes",
-  },
-  {
-    id: 3,
     name: "Quotes",
     pathValue: "/quotes",
   },
   {
-    id: 4,
+    id: 3,
     name: "Authors",
     pathValue: "/authors",
   },
@@ -41,7 +36,7 @@ const userNavigation = [
   { name: "Log out", icon: <LogOut size={18} /> },
 ];
 
-const trackRecord = ["blogs", "quotes",];
+const trackRecord = ["blogs", "quotes"];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -87,6 +82,7 @@ const Navbar = ({ mode, setter }) => {
       source.cancel("Component unmounted");
     };
   }, [openSideBar]);
+  
   const openSlideOverProfile = () => {
     return (
       <Transition.Root show={openSideBar} as={Fragment}>

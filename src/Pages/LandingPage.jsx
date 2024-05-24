@@ -67,7 +67,7 @@ const LandingPage = () => {
 
   return (
     <div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 lg:gap-x-24 py-4 sm:py-20 discover full-bleed">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 lg:gap-x-24 py-4 sm:py-20 ">
         <div className="space-y-8">
           <h1 className="text-24size text-center sm:text-left font-bold tracking-tight text-gray-900 sm:text-4xl">
             InsightHub Your Gateway to Knowledge and Inspiration

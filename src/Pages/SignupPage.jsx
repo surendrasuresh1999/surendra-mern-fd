@@ -21,10 +21,6 @@ const SignupPage = () => {
       .then((res) => {
         if (res.data.status) {
           console.log(res);
-          // localStorage.setItem(
-          //   "talHuntUserDetails",
-          //   JSON.stringify(res.data.details)
-          // );
           navigate("/login");
           actions.resetForm();
         } else {
