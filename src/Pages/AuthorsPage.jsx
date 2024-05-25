@@ -8,53 +8,38 @@ import { Avatar } from "@mui/material";
 import ReactTimeAgo from "react-time-ago";
 import { context } from "./CommonPage";
 import NoDataFound from "../Common/NoDataFoun";
+import ConnectionLost from "../Common/ConnectionLost";
+import { useQuery } from "@tanstack/react-query";
 
 const AuthorsPage = () => {
   const mode = useContext(context);
-  const [blogDataObj, setBlogDataObj] = useState({
-    isFetching: true,
-    data: [],
-    error: false,
-  });
   const jwtToken = Cookies.get("jwtToken");
-  const getAllAuthors = () => {
-    axios
-      .get(`${Baseurl.baseurl}/api/user/all`, {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          setBlogDataObj({
-            ...blogDataObj,
-            isFetching: false,
-            data: res.data,
-          });
-        } else {
-          toast.error(res.data.message);
-          setBlogDataObj({ ...blogDataObj, isFetching: false, data: [] });
-          console.log("res", res);
-        }
-      })
-      .catch((err) => {
-        setBlogDataObj({ ...blogDataObj, isFetching: false, data: [] });
-        console.log("Error", err.message);
-        toast.error(err.message);
-      });
+
+  const getAllAuthors = async () => {
+    return await fetch(`${Baseurl.baseurl}/api/user/all`, {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    }).then((res) => res.json());
   };
 
-  useEffect(() => {
-    getAllAuthors();
-  }, []);
-  
+  const { isPending, error, data } = useQuery({
+    queryKey: ["authorsData"],
+    queryFn: getAllAuthors,
+  });
+
   return (
     <div>
-      {blogDataObj.isFetching ? (
+      {isPending ? (
         <Loader />
-      ) : blogDataObj.data?.length > 0 ? (
-        <ul role="list" className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {blogDataObj.data?.map((person, index) => (
+      ) : error ? (
+        <ConnectionLost />
+      ) : data?.length > 0 ? (
+        <ul
+          role="list"
+          className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {data?.map((person, index) => (
             <li
               key={index}
               className={`relative flex items-center space-x-3 rounded-lg border border-gray-300 ${

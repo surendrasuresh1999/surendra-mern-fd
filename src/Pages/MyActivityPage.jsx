@@ -9,6 +9,7 @@ import BlogCard from "../Components/BlogCard";
 import NoDataFound from "../Common/NoDataFoun";
 import { PlusCircleIcon } from "lucide-react";
 import swal from "sweetalert";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 const MyActivityPage = () => {
   const [blogDataObj, setBlogDataObj] = useState({
@@ -17,38 +18,20 @@ const MyActivityPage = () => {
     error: false,
   });
   const jwtToken = Cookies.get("jwtToken");
+  const queryClient = useQueryClient();
 
-  const getAllUSerBlogPosts = () => {
-    axios
-      .get(`${Baseurl.baseurl}/api/blog/user`, {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          console.log("data", res.data.posts);
-          setBlogDataObj({
-            ...blogDataObj,
-            isFetching: false,
-            data: res.data.posts,
-          });
-        } else {
-          toast.error(res.data.message);
-          setBlogDataObj({ ...blogDataObj, isFetching: false, data: [] });
-          console.log("res", res);
-        }
-      })
-      .catch((err) => {
-        setBlogDataObj({ ...blogDataObj, isFetching: false, data: [] });
-        console.log("Error", err.message);
-        toast.error(err.message);
-      });
+  const getAllUSerBlogPosts = async () => {
+    return await fetch(`${Baseurl.baseurl}/api/blog/user`, {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    }).then((res) => res.json());
   };
 
-  useEffect(() => {
-    getAllUSerBlogPosts();
-  }, []);
+  const { isPending, error, data } = useQuery({
+    queryKey: ["activityData"],
+    queryFn: getAllUSerBlogPosts,
+  });
 
   const handleToDeleteBlog = (blogId) => {
     swal({
@@ -59,7 +42,6 @@ const MyActivityPage = () => {
       dangerMode: true,
     })
       .then((willDelete) => {
-        console.log(willDelete);
         if (willDelete) {
           axios
             .delete(`${Baseurl.baseurl}/api/blog/${blogId}`, {
@@ -69,16 +51,14 @@ const MyActivityPage = () => {
             })
             .then((res) => {
               if (res.status === 200) {
-                getAllUSerBlogPosts();
+                queryClient.invalidateQueries("activityData");
                 toast.success(res.data.message);
               } else {
-                getAllUSerBlogPosts();
                 toast.error(res.data.message);
                 console.log("res", res);
               }
             })
             .catch((err) => {
-              getAllUSerBlogPosts();
               console.log("Error", err.message);
               toast.error(err.message);
             });
@@ -90,14 +70,16 @@ const MyActivityPage = () => {
   };
   return (
     <div>
-      {blogDataObj.isFetching ? (
+      {isPending ? (
         <Loader />
-      ) : blogDataObj.data?.length > 0 ? (
+      ) : error ? (
+        <ConnectionLost />
+      ) : data.posts?.length > 0 ? (
         <ul
           role="list"
           className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {blogDataObj.data?.map((blog, idx) => (
+          {data.posts?.map((blog, idx) => (
             <Zoom key={idx} triggerOnce={true}>
               <li key={idx}>
                 <BlogCard

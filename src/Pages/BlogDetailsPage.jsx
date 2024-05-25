@@ -15,49 +15,30 @@ import toast from "react-hot-toast";
 import CommentsDrawer from "../Components/CommentsDrawer";
 import { HeartIcon } from "@heroicons/react/24/outline";
 import numeral from "numeral";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import ConnectionLost from "../Common/ConnectionLost";
 
 const BlogDetailsPage = () => {
-  const [blogDataObj, setBlogDataObj] = useState({
-    isFetching: true,
-    data: {},
-    error: false,
-  });
   const userDetails = JSON.parse(localStorage.getItem("blogUserDetails"));
   const [openCommentsSlider, setOpenCommentsSlider] = useState(false);
   const [comment, setComment] = useState("");
   const { id } = useParams();
   const navigate = useNavigate();
   const jwtToken = Cookies.get("jwtToken");
+  const queryClient = useQueryClient();
 
-  const getBlogDetails = () => {
-    axios
-      .get(`${Baseurl.baseurl}/api/blog/${id}`, {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          setBlogDataObj({
-            ...blogDataObj,
-            isFetching: false,
-            data: res.data.posts,
-          });
-        } else {
-          toast.error(res.data.message);
-          setBlogDataObj({ ...blogDataObj, isFetching: false, data: {} });
-          console.log("res", res);
-        }
-      })
-      .catch((err) => {
-        setBlogDataObj({ ...blogDataObj, isFetching: false, data: {} });
-        console.log("Error", err.message);
-        toast.error(err.message);
-      });
+  const getBlogDetails = async () => {
+    return await fetch(`${Baseurl.baseurl}/api/blog/${id}`, {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    }).then((res) => res.json());
   };
-  useEffect(() => {
-    getBlogDetails();
-  }, []);
+
+  const { isPending, error, data } = useQuery({
+    queryKey: ["blogData"],
+    queryFn: getBlogDetails,
+  });
 
   // create a new comment for the specified blog
   const handleCreateComment = () => {
@@ -71,7 +52,7 @@ const BlogDetailsPage = () => {
       .then((res) => {
         if (res.status === 200) {
           toast.success(res.data.message);
-          getBlogDetails();
+          queryClient.invalidateQueries("blogData");
           setComment("");
         } else {
           toast.error(res.data.message);
@@ -93,9 +74,9 @@ const BlogDetailsPage = () => {
       })
       .then((res) => {
         if (res.data.status === 200) {
+          queryClient.invalidateQueries("blogData");
           toast.success(res.data.message);
           setOpenCommentsSlider(false);
-          getBlogDetails();
         } else {
           toast.error(res.data.message);
           console.log("res", res);
@@ -120,8 +101,8 @@ const BlogDetailsPage = () => {
       )
       .then((res) => {
         if (res.data.status === 200) {
+          queryClient.invalidateQueries("blogData");
           toast.success(res.data.message);
-          getBlogDetails();
         } else {
           toast.error(res.data.message);
           console.log("res", res);
@@ -156,7 +137,7 @@ const BlogDetailsPage = () => {
       .then((res) => {
         if (res.data.status === 200) {
           toast.success(res.data.message);
-          getBlogDetails();
+          queryClient.invalidateQueries("blogData");
         } else {
           toast.error(res.data.message);
           console.log("res", res);
@@ -170,15 +151,17 @@ const BlogDetailsPage = () => {
 
   return (
     <div className="max-w-5xl m-auto">
-      {blogDataObj.isFetching ? (
+      {isPending ? (
         <Loader />
+      ) : error ? (
+        <ConnectionLost />
       ) : (
         <div className="space-y-4">
           <h1 className="text-black dark:text-white text-18size sm:text-30size font-600 tracking-wide">
-            {blogDataObj.data.title}
+            {data.posts.title}
           </h1>
           <img
-            src={blogDataObj.data.imageUrl}
+            src={data.posts.imageUrl}
             alt="banner-img"
             className="max-h-96 w-full object-cover object-center rounded-md"
           />
@@ -186,16 +169,16 @@ const BlogDetailsPage = () => {
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <Avatar sx={{ width: 50, height: 50, fontSize: "24px" }}>
-                  {blogDataObj.data?.user?.slice(0, 1).toUpperCase()}
+                  {data?.posts.user?.slice(0, 1).toUpperCase()}
                 </Avatar>
                 <div>
                   <p className="font-medium text-18size text-black dark:text-white">
-                    {blogDataObj.data?.user?.charAt(0).toUpperCase() +
-                      blogDataObj.data?.user?.slice(1)}
+                    {data?.posts.user?.charAt(0).toUpperCase() +
+                      data?.posts.user?.slice(1)}
                   </p>
                   <span className="font-normal text-14size text-gray-700 dark:text-indigo-600">
                     <ReactTimeAgo
-                      date={Date.parse(blogDataObj.data?.createdAt)}
+                      date={Date.parse(data?.posts.createdAt)}
                       locale="en-US"
                     />
                   </span>
@@ -203,23 +186,23 @@ const BlogDetailsPage = () => {
               </div>
               <div className="flex gap-2 flex-row-reverse">
                 <button
-                  onClick={() => handleDropLike(blogDataObj.data._id)}
+                  onClick={() => handleDropLike(data.posts._id)}
                   className="flex items-center gap-1 rounded-md bg-transparent px-3 py-2 text-sm font-semibold text-indigo-600 "
                 >
-                  {blogDataObj.data?.likedUsers?.includes(userDetails._id) ? (
+                  {data?.posts.likedUsers?.includes(userDetails._id) ? (
                     <Filled className="text-orange-500 h-6 w-6" />
                   ) : (
                     <HeartIcon className="text-orange-500 h-6 w-6" />
                   )}
-                  {blogDataObj.data?.likedUsers?.length > 0 &&
-                    numeral(blogDataObj.data?.likedUsers?.length).format("0,a")}
+                  {data?.posts.likedUsers?.length > 0 &&
+                    numeral(data?.posts.likedUsers?.length).format("0,a")}
                 </button>
               </div>
             </div>
             <div className="text-justify text-gray-600 dark:text-white">
               <div
                 dangerouslySetInnerHTML={{
-                  __html: blogDataObj.data?.discription,
+                  __html: data?.posts.discription,
                 }}
                 className="text-20size text-justify"
               />
@@ -266,7 +249,7 @@ const BlogDetailsPage = () => {
       )}
       {openCommentsSlider && (
         <CommentsDrawer
-          commentsData={blogDataObj?.data?.comments}
+          commentsData={data?.posts.comments}
           openDrawer={openCommentsSlider}
           setterFun={setOpenCommentsSlider}
           handlerFun={handleReceiveCommentIdAndDeleteComment}

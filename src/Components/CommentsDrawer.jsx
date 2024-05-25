@@ -116,9 +116,6 @@ const CommentsDrawer = ({
                         </span>
                       ) : null}
                     </button>
-                    <button className={`${mode ? "text-white" : "text-balck"}`}>
-                      reply
-                    </button>
                   </div>
                 </div>
               </li>
