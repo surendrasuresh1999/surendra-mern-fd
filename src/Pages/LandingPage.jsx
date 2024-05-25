@@ -20,14 +20,6 @@ const primaryFeatures = [
     path: "/blogs",
   },
   {
-    name: "Joke Central",
-    description:
-      "In need of a good laugh? Look no further! Our jokes page is your go-to destination for endless humor and amusement. Delight in a selection of side-splitting jokes and witty one-liners that are guaranteed to brighten your day.",
-    href: "#",
-    icon: jokeImg,
-    path: "/jokes",
-  },
-  {
     name: "Quote Corner",
     description:
       "Seeking inspiration and motivation? Discover profound wisdom and timeless truths on our quotes page. Immerse yourself in a collection of insightful quotes from renowned thinkers, philosophers, and visionaries, empowering you to embrace life's journey with courage and optimism.",
@@ -136,7 +128,7 @@ const LandingPage = () => {
           </p>
         </div>
         <div className="py-6">
-          <ul className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <ul className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
             {primaryFeatures.map((feature, index) => (
               <li
                 key={index}
