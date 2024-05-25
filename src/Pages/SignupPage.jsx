@@ -3,7 +3,7 @@ import React from "react";
 import { userSignUpSchema } from "../FormikSchemas";
 import axios from "axios";
 import { Baseurl } from "../BaseUrl";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const SignupPage = () => {
@@ -86,6 +86,15 @@ const SignupPage = () => {
               </button>
             </Form>
           </Formik>
+          <p className="mt-10 text-center text-sm text-gray-500">
+            Already have an account?{" "}
+            <Link
+              to={"/login"}
+              className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+            >
+              Login
+            </Link>
+          </p>
         </div>
       </div>
     </div>

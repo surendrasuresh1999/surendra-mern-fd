@@ -4,7 +4,7 @@ import { userLoginSchema } from "../FormikSchemas";
 import axios from "axios";
 import { Baseurl } from "../BaseUrl";
 import { toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
 const LoginPage = () => {
@@ -79,6 +79,15 @@ const LoginPage = () => {
               </button>
             </Form>
           </Formik>
+          <p className="mt-10 text-center text-sm text-gray-500">
+            Don't have account?{" "}
+            <Link
+              to="/signup"
+              className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+            >
+              Register
+            </Link>
+          </p>
         </div>
       </div>
     </div>
