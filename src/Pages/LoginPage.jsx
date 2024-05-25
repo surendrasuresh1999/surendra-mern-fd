@@ -67,9 +67,8 @@ const LoginPage = () => {
                       {key.slice(1, key.length)}
                     </label>
                     {key === "password" ? (
-                      <Field
-                        name="password"
-                        render={({
+                      <Field name="password">
+                        {({
                           field /* { name, value, onChange, onBlur } */,
                         }) => (
                           <div className="relative mt-2 rounded-md shadow-sm">
@@ -92,7 +91,7 @@ const LoginPage = () => {
                             </button>
                           </div>
                         )}
-                      />
+                      </Field>
                     ) : (
                       <Field
                         type={key}

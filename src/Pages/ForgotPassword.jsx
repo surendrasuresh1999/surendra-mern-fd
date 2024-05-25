@@ -18,10 +18,11 @@ const ForgotPassword = () => {
 
   const handleFormSubmit = (values, actions) => {
     axios
-      .post(`${Baseurl.baseurl}/api/user/login`, values)
+      .put(`${Baseurl.baseurl}/api/user/update-password`, values)
       .then((res) => {
         if (res.data.status) {
           navigate("/login");
+          toast.success(res.data.message);
           actions.resetForm();
         } else {
           toast.error(res.data.message);
@@ -62,9 +63,8 @@ const ForgotPassword = () => {
                       {key.slice(1, key.length)}
                     </label>
                     {key === "confirmPassword" ? (
-                      <Field
-                        name="confirmPassword"
-                        render={({ field }) => (
+                      <Field name="confirmPassword">
+                        {({ field }) => (
                           <div className="relative rounded-md shadow-sm">
                             <input
                               {...field}
@@ -85,7 +85,7 @@ const ForgotPassword = () => {
                             </button>
                           </div>
                         )}
-                      />
+                      </Field>
                     ) : (
                       <Field
                         type={key}
