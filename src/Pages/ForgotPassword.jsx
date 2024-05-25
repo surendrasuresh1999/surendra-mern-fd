@@ -1,37 +1,37 @@
 import { Field, Form, Formik, ErrorMessage } from "formik";
-import React from "react";
-import { userSignUpSchema } from "../FormikSchemas";
+import React, { useState } from "react";
+import { passwordChangeSchema } from "../FormikSchemas";
 import axios from "axios";
 import { Baseurl } from "../BaseUrl";
+import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-import { LoaderCircle } from "lucide-react";
+import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 
-const SignupPage = () => {
+const ForgotPassword = () => {
   const navigate = useNavigate();
   const userObject = {
-    name: "",
     email: "",
-    phone: "",
     password: "",
+    confirmPassword: "",
   };
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleFormSubmit = (values, actions) => {
     axios
-      .post(`${Baseurl.baseurl}/api/user/signup`, values)
+      .post(`${Baseurl.baseurl}/api/user/login`, values)
       .then((res) => {
         if (res.data.status) {
           navigate("/login");
           actions.resetForm();
         } else {
           toast.error(res.data.message);
-          console.log("res", res.data.message);
+          console.log("res", res);
           actions.setSubmitting(false);
         }
       })
       .catch((err) => {
-        toast.error(err.message);
         console.log("Error", err.message);
+        toast.error(err.message);
         actions.setSubmitting(false);
       });
   };
@@ -39,24 +39,19 @@ const SignupPage = () => {
   return (
     <div className="h-screen bg-blue-50 form-shadow">
       <div className="flex items-center justify-center h-full">
-        <div className="bg-white border rounded-md border-borderColor space-y-2 p-4 w-96">
+        <div className="bg-white border rounded-md border-borderColor space-y-4 p-4 w-96">
           <div className="flex flex-col items-center justify-center">
-            {/* <img
-              className="h-10 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              alt="Your Company"
-            /> */}
             <h2 className="text-26size font-bold leading-9 tracking-tight text-gray-900">
-              Sign in to your account
+              Reset your password
             </h2>
           </div>
           <Formik
             initialValues={userObject}
-            validationSchema={userSignUpSchema}
+            validationSchema={passwordChangeSchema}
             onSubmit={handleFormSubmit}
           >
             {({ isSubmitting }) => (
-              <Form className="flex flex-col gap-2">
+              <Form className="flex flex-col gap-3">
                 {Object.keys(userObject).map((key, index) => (
                   <div key={index} className="flex flex-col gap-1">
                     <label
@@ -66,11 +61,39 @@ const SignupPage = () => {
                       {key.charAt(0).toUpperCase()}
                       {key.slice(1, key.length)}
                     </label>
-                    <Field
-                      type={key === "password" ? key : "text"}
-                      name={key}
-                      className="grow rounded-md"
-                    />
+                    {key === "confirmPassword" ? (
+                      <Field
+                        name="confirmPassword"
+                        render={({ field }) => (
+                          <div className="relative rounded-md shadow-sm">
+                            <input
+                              {...field}
+                              type={showPassword ? "text" : "password"}
+                              placeholder="Password"
+                              className="block w-full rounded-md pr-10"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setShowPassword(!showPassword)}
+                              className="absolute inset-y-0 right-0 flex items-center pr-3"
+                            >
+                              {showPassword ? (
+                                <EyeOff className="text-gray-600" />
+                              ) : (
+                                <Eye className="text-gray-600" />
+                              )}
+                            </button>
+                          </div>
+                        )}
+                      />
+                    ) : (
+                      <Field
+                        type={key}
+                        name={key}
+                        placeholder={`Enter ${key}`}
+                        className="grow rounded-md border"
+                      />
+                    )}
                     <ErrorMessage
                       name={key}
                       render={(msg) => (
@@ -83,8 +106,7 @@ const SignupPage = () => {
                 ))}
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white flex items-center justify-center font-medium tracking-wide text-14size rounded-md py-2"
-                  disabled={isSubmitting}
+                  className="bg-blue-500 mt-2 text-white flex items-center justify-center font-medium tracking-wide text-14size rounded-md py-2"
                 >
                   {isSubmitting ? (
                     <LoaderCircle
@@ -98,11 +120,10 @@ const SignupPage = () => {
               </Form>
             )}
           </Formik>
-
           <p className="mt-10 text-center text-sm text-gray-500">
-            Already have an account?{" "}
+            Remembered your password?{" "}
             <Link
-              to={"/login"}
+              to="/login"
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
             >
               Login
@@ -114,4 +135,4 @@ const SignupPage = () => {
   );
 };
 
-export default SignupPage;
+export default ForgotPassword;

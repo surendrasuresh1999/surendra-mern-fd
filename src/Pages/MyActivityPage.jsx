@@ -10,13 +10,11 @@ import NoDataFound from "../Common/NoDataFoun";
 import { PlusCircleIcon } from "lucide-react";
 import swal from "sweetalert";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import CreateBlogDialog from "../Components/CreateBlogDialog";
 
 const MyActivityPage = () => {
-  const [blogDataObj, setBlogDataObj] = useState({
-    isFetching: true,
-    data: [],
-    error: false,
-  });
+  const [isOpenDialog, setIsOpenDialog] = useState(false);
+  const [selected, setSelected] = useState(null);
   const jwtToken = Cookies.get("jwtToken");
   const queryClient = useQueryClient();
 
@@ -68,6 +66,37 @@ const MyActivityPage = () => {
         toast.error(error.message);
       });
   };
+
+  const handleCreateNewBlogPost = (postData) => {
+    const data = {
+      title: postData.uploadData.title,
+      imageUrl: postData.uploadData.url,
+      categorey: postData.category.label,
+      discription: postData.uploadData.description,
+    };
+    axios
+      .post(`${Baseurl.baseurl}/api/blog`, data, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          queryClient.invalidateQueries("activityData");
+          toast.success(res.data.message);
+          setIsOpenDialog(false);
+        } else {
+          toast.error(res.data.message);
+          queryClient.invalidateQueries("activityData");
+        }
+      })
+      .catch((err) => {
+        queryClient.invalidateQueries("activityData");
+        console.log("Error", err.message);
+        toast.error(err.message);
+      });
+  };
+
   return (
     <div>
       {isPending ? (
@@ -92,8 +121,8 @@ const MyActivityPage = () => {
           ))}
         </ul>
       ) : (
-        <>
-          <NoDataFound title={"No data found at this moment"} />
+        <div className="flex flex-col items-center justify-center space-y-3 pt-10">
+          <NoDataFound title={"Sorry you didn't created any blog yet"} />
           <button
             onClick={() => setIsOpenDialog(true)}
             type="button"
@@ -102,7 +131,14 @@ const MyActivityPage = () => {
             <PlusCircleIcon className="h-5 w-5 text-indigo-600" />
             Create blog
           </button>
-        </>
+        </div>
+      )}
+      {isOpenDialog && (
+        <CreateBlogDialog
+          openDialog={isOpenDialog}
+          setter={setIsOpenDialog}
+          handler={handleCreateNewBlogPost}
+        />
       )}
     </div>
   );

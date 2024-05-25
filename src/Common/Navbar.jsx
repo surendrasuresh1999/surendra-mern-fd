@@ -79,10 +79,10 @@ const Navbar = ({ mode, setter }) => {
     }
     return () => {
       // befor hitting the api this clean up will called and when the component is unmounted then this clean up will be called
-      source.cancel("Component unmounted");
+      // source.cancel("Component unmounted");
     };
   }, [openSideBar]);
-  
+
   const openSlideOverProfile = () => {
     return (
       <Transition.Root show={openSideBar} as={Fragment}>
@@ -157,7 +157,7 @@ const Navbar = ({ mode, setter }) => {
                       <div className="relative flex-1 px-4 sm:px-6 overflow-y-auto max-w-md break-words">
                         {userTrackData.isFetching ? (
                           <div className="flex items-center justify-center py-10">
-                            <BeatLoader color="#37c45d" size={20} />
+                            <BeatLoader color="#f08b1f" size={20} />
                           </div>
                         ) : (
                           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4">

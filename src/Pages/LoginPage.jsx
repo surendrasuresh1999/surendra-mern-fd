@@ -1,12 +1,12 @@
 import { Field, Form, Formik, ErrorMessage } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { userLoginSchema } from "../FormikSchemas";
 import axios from "axios";
 import { Baseurl } from "../BaseUrl";
 import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { LoaderCircle } from "lucide-react";
+import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -14,6 +14,7 @@ const LoginPage = () => {
     email: "",
     password: "",
   };
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleFormSubmit = (values, actions) => {
     axios
@@ -30,13 +31,16 @@ const LoginPage = () => {
         } else {
           toast.error(res.data.message);
           console.log("res", res);
+          actions.setSubmitting(false);
         }
       })
       .catch((err) => {
         console.log("Error", err.message);
         toast.error(err.message);
+        actions.setSubmitting(false);
       });
   };
+
   return (
     <div className="h-screen bg-blue-50 form-shadow">
       <div className="flex items-center justify-center h-full">
@@ -62,7 +66,41 @@ const LoginPage = () => {
                       {key.charAt(0).toUpperCase()}
                       {key.slice(1, key.length)}
                     </label>
-                    <Field type={key} name={key} className="grow rounded-md" />
+                    {key === "password" ? (
+                      <Field
+                        name="password"
+                        render={({
+                          field /* { name, value, onChange, onBlur } */,
+                        }) => (
+                          <div className="relative mt-2 rounded-md shadow-sm">
+                            <input
+                              {...field}
+                              type={showPassword ? "text" : "password"}
+                              placeholder="Password"
+                              className="block w-full rounded-md pr-10"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setShowPassword(!showPassword)}
+                              className="absolute inset-y-0 right-0 flex items-center pr-3"
+                            >
+                              {showPassword ? (
+                                <EyeOff className="text-gray-600" />
+                              ) : (
+                                <Eye className="text-gray-600" />
+                              )}
+                            </button>
+                          </div>
+                        )}
+                      />
+                    ) : (
+                      <Field
+                        type={key}
+                        name={key}
+                        placeholder="Enter email address"
+                        className="grow rounded-md"
+                      />
+                    )}
                     <ErrorMessage
                       name={key}
                       render={(msg) => (
@@ -71,6 +109,11 @@ const LoginPage = () => {
                         </p>
                       )}
                     />
+                    {key === "password" && (
+                      <p className="text-14size text-gray-900 text-right font-600 tracking-wide mt-1">
+                        <Link to="/forgot-password">Forgot Password?</Link>
+                      </p>
+                    )}
                   </div>
                 ))}
                 <button
@@ -80,7 +123,7 @@ const LoginPage = () => {
                   {isSubmitting ? (
                     <LoaderCircle
                       className="text-white animate-spin"
-                      size={22}
+                      size={21}
                     />
                   ) : (
                     "Submit"

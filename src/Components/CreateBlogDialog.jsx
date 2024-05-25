@@ -14,9 +14,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { Loader, XCircle } from "lucide-react";
 import JoditEditor from "jodit-react";
-import {
-  ArrowUpTrayIcon,
-} from "@heroicons/react/16/solid";
+import { ArrowUpTrayIcon } from "@heroicons/react/16/solid";
 import "react-tooltip/dist/react-tooltip.css";
 import toast from "react-hot-toast";
 import { context } from "../Pages/CommonPage";
@@ -48,7 +46,11 @@ const CreateBlogDialog = ({ openDialog, setter, handler }) => {
     showCharsCounter: false,
     showWordsCounter: false,
     showXPathInStatusbar: false,
+    askBeforePasteHTML: false,
+    askBeforePasteFromWord: true,
     enableDragAndDropFileToEditor: false,
+    defaultActionOnPaste: "insert_only_text",
+    cleanHTML: true,
     disablePlugins: "paste,resizer,resize-handler,image",
     uploader: {
       insertImageAsBase64URI: true,

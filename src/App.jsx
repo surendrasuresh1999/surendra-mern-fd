@@ -11,12 +11,14 @@ import ProtectedRoute from "./Pages/ProtectedRoute";
 import MyActivityPage from "./Pages/MyActivityPage";
 import LandingPage from "./Pages/LandingPage";
 import BlogsPage from "./Pages/BlogsPage";
+import ForgotPassword from "./Pages/ForgotPassword";
 
 const App = () => {
   return (
     <Routes>
       <Route path="login" element={<LoginPage />} />
       <Route path="signup" element={<SignupPage />} />
+      <Route path="forgot-password" element={<ForgotPassword />} />
       <Route path="" element={<CommonPage />}>
         <Route index element={<LandingPage />} />
         <Route element={<ProtectedRoute />}>
