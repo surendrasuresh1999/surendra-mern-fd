@@ -5,6 +5,7 @@ import axios from "axios";
 import { Baseurl } from "../BaseUrl";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { LoaderCircle } from "lucide-react";
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -20,7 +21,6 @@ const SignupPage = () => {
       .post(`${Baseurl.baseurl}/api/user/signup`, values)
       .then((res) => {
         if (res.data.status) {
-          console.log(res);
           navigate("/login");
           actions.resetForm();
         } else {
@@ -53,39 +53,47 @@ const SignupPage = () => {
             validationSchema={userSignUpSchema}
             onSubmit={handleFormSubmit}
           >
-            <Form className="flex flex-col gap-2">
-              {Object.keys(userObject).map((key, index) => (
-                <div key={index} className="flex flex-col gap-1">
-                  <label
-                    htmlFor={key}
-                    className="text-12size text-black font-600 tracking-wide"
-                  >
-                    {key.charAt(0).toUpperCase()}
-                    {key.slice(1, key.length)}
-                  </label>
-                  <Field
-                    type={key === "password" ? key : "text"}
-                    name={key}
-                    className="grow rounded-md"
-                  />
-                  <ErrorMessage
-                    name={key}
-                    render={(msg) => (
-                      <p className="text-red-600 font-500 tracking-wide text-12size">
-                        **{msg}
-                      </p>
-                    )}
-                  />
-                </div>
-              ))}
-              <button
-                type="submit"
-                className="bg-blue-500 text-white font-medium tracking-wide text-14size rounded-md py-2"
-              >
-                Submit
-              </button>
-            </Form>
+            {({ isSubmitting }) => (
+              <Form className="flex flex-col gap-2">
+                {Object.keys(userObject).map((key, index) => (
+                  <div key={index} className="flex flex-col gap-1">
+                    <label
+                      htmlFor={key}
+                      className="text-12size text-black font-600 tracking-wide"
+                    >
+                      {key.charAt(0).toUpperCase()}
+                      {key.slice(1, key.length)}
+                    </label>
+                    <Field
+                      type={key === "password" ? key : "text"}
+                      name={key}
+                      className="grow rounded-md"
+                    />
+                    <ErrorMessage
+                      name={key}
+                      render={(msg) => (
+                        <p className="text-red-600 font-500 tracking-wide text-12size">
+                          **{msg}
+                        </p>
+                      )}
+                    />
+                  </div>
+                ))}
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white flex items-center justify-center font-medium tracking-wide text-14size rounded-md py-2"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                   <LoaderCircle className="text-white animate-spin" size={22} />
+                  ) : (
+                    "Submit"
+                  )}
+                </button>
+              </Form>
+            )}
           </Formik>
+
           <p className="mt-10 text-center text-sm text-gray-500">
             Already have an account?{" "}
             <Link

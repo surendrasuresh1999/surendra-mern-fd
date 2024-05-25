@@ -6,6 +6,7 @@ import { Baseurl } from "../BaseUrl";
 import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { LoaderCircle } from "lucide-react";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -50,34 +51,43 @@ const LoginPage = () => {
             validationSchema={userLoginSchema}
             onSubmit={handleFormSubmit}
           >
-            <Form className="flex flex-col gap-2">
-              {Object.keys(userObject).map((key, index) => (
-                <div key={index} className="flex flex-col gap-1">
-                  <label
-                    htmlFor={key}
-                    className="text-12size text-black font-600 tracking-wide"
-                  >
-                    {key.charAt(0).toUpperCase()}
-                    {key.slice(1, key.length)}
-                  </label>
-                  <Field type={key} name={key} className="grow rounded-md" />
-                  <ErrorMessage
-                    name={key}
-                    render={(msg) => (
-                      <p className="text-red-600 font-500 tracking-wide text-12size">
-                        **{msg}
-                      </p>
-                    )}
-                  />
-                </div>
-              ))}
-              <button
-                type="submit"
-                className="bg-blue-500 mt-2 text-white font-medium tracking-wide text-14size rounded-md py-2"
-              >
-                Submit
-              </button>
-            </Form>
+            {({ isSubmitting }) => (
+              <Form className="flex flex-col gap-2">
+                {Object.keys(userObject).map((key, index) => (
+                  <div key={index} className="flex flex-col gap-1">
+                    <label
+                      htmlFor={key}
+                      className="text-12size text-black font-600 tracking-wide"
+                    >
+                      {key.charAt(0).toUpperCase()}
+                      {key.slice(1, key.length)}
+                    </label>
+                    <Field type={key} name={key} className="grow rounded-md" />
+                    <ErrorMessage
+                      name={key}
+                      render={(msg) => (
+                        <p className="text-red-600 font-500 tracking-wide text-12size">
+                          **{msg}
+                        </p>
+                      )}
+                    />
+                  </div>
+                ))}
+                <button
+                  type="submit"
+                  className="bg-blue-500 mt-2 text-white flex items-center justify-center font-medium tracking-wide text-14size rounded-md py-2"
+                >
+                  {isSubmitting ? (
+                    <LoaderCircle
+                      className="text-white animate-spin"
+                      size={22}
+                    />
+                  ) : (
+                    "Submit"
+                  )}
+                </button>
+              </Form>
+            )}
           </Formik>
           <p className="mt-10 text-center text-sm text-gray-500">
             Don't have account?{" "}
