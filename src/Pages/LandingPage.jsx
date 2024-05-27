@@ -67,7 +67,7 @@ const LandingPage = () => {
           content="Discover diverse insights and motivation."
         />
       </Helmet>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 lg:gap-x-24 py-4 sm:py-20 ">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 lg:gap-x-24 py-4 sm:py-20 ">
         <div className="space-y-8">
           <h1 className="text-24size text-center sm:text-left font-bold tracking-tight text-gray-900 sm:text-4xl">
             InsightHub Your Gateway to Knowledge and Inspiration
@@ -76,7 +76,7 @@ const LandingPage = () => {
             src={landingPageImg}
             loading="lazy"
             alt="banner"
-            className="block sm:hidden rounded-md"
+            className="block lg:hidden rounded-md"
           />
           <p className="text-justify sm:text-pretty">
             <b className="text-5xl float-left text-gray-900">W</b>elcome to
@@ -90,12 +90,8 @@ const LandingPage = () => {
             discovery with InsightHub.
           </p>
         </div>
-        <div>
-          <img
-            src={landingPageImg}
-            alt="banner"
-            className="hidden sm:block rounded-md"
-          />
+        <div className="hidden lg:block">
+          <img src={landingPageImg} alt="banner" className=" rounded-md" />
         </div>
       </div>
       <div className="my-16 sm:my-24 space-y-2">

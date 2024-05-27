@@ -16,7 +16,7 @@ import NoDataFound from "../Common/NoDataFoun";
 import { PlusCircleIcon, HeartIcon as Filled } from "@heroicons/react/20/solid";
 import { HeartIcon, TrashIcon } from "@heroicons/react/24/outline";
 import numeral from "numeral";
-import { SquarePenIcon } from "lucide-react";
+import { LoaderCircle, SquarePenIcon } from "lucide-react";
 import swal from "sweetalert";
 import { Helmet } from "react-helmet";
 
@@ -27,6 +27,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 const QuotesPage = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [ediatable, setEdiatable] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
   const [quoteObj, setQuoteObj] = useState({ quote: "", author: "", tags: "" });
   const [quoteId, setQuoteId] = useState("");
   const userDetails = JSON.parse(localStorage.getItem("blogUserDetails"));
@@ -40,6 +41,7 @@ const QuotesPage = () => {
       quoteObj.quote !== "" &&
       quoteObj.tags !== ""
     ) {
+      setShowLoading(true);
       const data = {
         author: quoteObj.author,
         quote: quoteObj.quote,
@@ -57,13 +59,16 @@ const QuotesPage = () => {
             setQuoteObj({ quote: "", author: "" });
             queryClient.invalidateQueries("quotesData");
             setOpenDialog(false);
+            setShowLoading(false);
           } else {
             toast.error(res.data.message);
+            setShowLoading(false);
           }
         })
         .catch((err) => {
           console.log("Error", err.message);
           toast.error(err.message);
+          setShowLoading(false);
         });
     } else {
       toast.error("All fields must be non-empty");
@@ -82,6 +87,7 @@ const QuotesPage = () => {
         quoteObj.quote !== "" &&
         quoteObj.tags !== ""
       ) {
+        setShowLoading(true);
         axios
           .put(`${Baseurl.baseurl}/api/quote/${quoteId}`, data, {
             headers: {
@@ -96,13 +102,16 @@ const QuotesPage = () => {
               setEdiatable(false);
               setOpenDialog(false);
               queryClient.invalidateQueries("quotesData");
+              setShowLoading(false);
             } else {
               toast.error(res.data.message);
+              setShowLoading(false);
             }
           })
           .catch((err) => {
             console.log("Error", err.message);
             toast.error(err.message);
+            setShowLoading(false);
           });
       } else {
         toast.error("All fields must be not empty");
@@ -197,9 +206,17 @@ const QuotesPage = () => {
           </button>
           <button
             onClick={ediatable ? handleEditQuote : handleCreateQuote}
-            className="flex items-center border border-green-400 justify-center gap-1 rounded-md bg-green-50 px-8 py-2 text-sm font-semibold text-green-600 shadow-sm hover:bg-green-100"
+            className={`flex items-center border border-green-400 justify-center gap-1 rounded-md bg-green-50 ${
+              showLoading ? "px-12" : "px-8"
+            } py-2 text-sm font-semibold text-green-600 shadow-sm hover:bg-green-100`}
           >
-            {ediatable ? "Update" : "Create"}
+            {showLoading ? (
+              <LoaderCircle className="text-green-600 animate-spin" size={21} />
+            ) : ediatable ? (
+              "Update"
+            ) : (
+              "Create"
+            )}
           </button>
         </DialogActions>
       </Dialog>

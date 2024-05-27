@@ -3,9 +3,6 @@ import * as Yup from "yup";
 export const userSignUpSchema = Yup.object().shape({
   name: Yup.string().required("name is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
-  phone: Yup.string()
-    .matches(/^[0-9]{10}$/, "Phone number must be 10 digits")
-    .required("Phone number is required"),
   password: Yup.string()
     .required("Password is required")
     .min(8, "Password must be at least 8 characters")

@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const navigation = {
   main: [
@@ -90,14 +89,18 @@ const Footer = () => {
         </nav>
         <div className="mt-10 flex justify-center space-x-10">
           {navigation.social.map((item) => (
-            <a key={item.name} href={item.href} className="text-white">
+            <span key={item.name} className="text-white">
               <span className="sr-only">{item.name}</span>
               <item.icon className="h-6 w-6" aria-hidden="true" />
-            </a>
+            </span>
           ))}
         </div>
         <p className="mt-10 text-center text-xs leading-5 text-white">
           &copy; 2020 Your Company, Inc. All rights reserved.
+        </p>
+        <p className="text-center text-xs leading-5 text-white tracking-wide mt-3">
+          <b>Note:</b> Please not this footer is static and just show case
+          purpose only
         </p>
       </div>
     </footer>

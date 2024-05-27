@@ -101,8 +101,11 @@ const MyActivityPage = () => {
   return (
     <div>
       <Helmet>
-        <title>My Title</title>
-        <meta name="description" content="Helmet application" />
+        <title>Stay Updated on Your Recent Actions</title>
+        <meta
+          name="description"
+          content="Keep track of your recent activities and engagements with our Activity Tracker. Stay informed about your interactions, updates, and progress with ease."
+        />
       </Helmet>
       {isPending ? (
         <Loader />

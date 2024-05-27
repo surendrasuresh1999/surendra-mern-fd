@@ -13,7 +13,6 @@ const SignupPage = () => {
   const userObject = {
     name: "",
     email: "",
-    phone: "",
     password: "",
   };
 
