@@ -17,6 +17,7 @@ import { HeartIcon } from "@heroicons/react/24/outline";
 import numeral from "numeral";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import ConnectionLost from "../Common/ConnectionLost";
+import { Helmet } from "react-helmet";
 
 const BlogDetailsPage = () => {
   const userDetails = JSON.parse(localStorage.getItem("blogUserDetails"));
@@ -151,6 +152,10 @@ const BlogDetailsPage = () => {
 
   return (
     <div className="max-w-5xl m-auto">
+      <Helmet>
+        <title>My Title</title>
+        <meta name="description" content="Helmet application" />
+      </Helmet>
       {isPending ? (
         <Loader />
       ) : error ? (

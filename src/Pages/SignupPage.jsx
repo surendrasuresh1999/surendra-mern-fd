@@ -6,6 +6,7 @@ import { Baseurl } from "../BaseUrl";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { LoaderCircle } from "lucide-react";
+import { Helmet } from "react-helmet";
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -38,6 +39,10 @@ const SignupPage = () => {
 
   return (
     <div className="h-screen bg-blue-50 form-shadow">
+      <Helmet>
+        <title>My Title</title>
+        <meta name="description" content="Helmet application" />
+      </Helmet>
       <div className="flex items-center justify-center h-full">
         <div className="bg-white border rounded-md border-borderColor space-y-2 p-4 w-96">
           <div className="flex flex-col items-center justify-center">

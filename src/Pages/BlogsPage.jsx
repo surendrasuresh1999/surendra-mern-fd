@@ -12,6 +12,7 @@ import BlogCard from "../Components/BlogCard";
 import CategoryDropDown from "../Components/CategoryDropDown";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import ConnectionLost from "../Common/ConnectionLost";
+import { Helmet } from "react-helmet";
 
 const BlogsPage = () => {
   const [isOpenDialog, setIsOpenDialog] = useState(false);
@@ -68,6 +69,10 @@ const BlogsPage = () => {
 
   return (
     <div className="space-y-6">
+      <Helmet>
+        <title>Explore Captivating Blogs</title>
+        <meta name="description" content="Discover a spectrum of topics." />
+      </Helmet>
       <div className="flex justify-end py-2 px-2 gap-3 rounded-md shadow bg-white">
         <CategoryDropDown
           category={selected}

@@ -1,4 +1,4 @@
-import { categoryOptions } from "../StaticData";
+import { categoryOptions, quotesTopics } from "../StaticData";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { useEffect } from "react";
@@ -9,6 +9,7 @@ import quoteImg from "../assets/fountain-pen.png";
 import authorImg from "../assets/writer.png";
 import { Link } from "react-router-dom";
 import landingPageImg from "../assets/landingPageBanner.jpg";
+import { Helmet } from "react-helmet";
 
 const primaryFeatures = [
   {
@@ -59,6 +60,13 @@ const LandingPage = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>Inspiration Avenue</title>
+        <meta
+          name="description"
+          content="Discover diverse insights and motivation."
+        />
+      </Helmet>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 lg:gap-x-24 py-4 sm:py-20 ">
         <div className="space-y-8">
           <h1 className="text-24size text-center sm:text-left font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -98,7 +106,7 @@ const LandingPage = () => {
           <div className="embla__container">
             {categoryOptions.map((category, index) => (
               <div
-                className="embla__slide border rounded-md shadow-sm text-center py-4 group/slide hover:border-slate-200 hover:bg-slate-50 flex items-center gap-3 justify-center"
+                className="embla__slide border rounded-md shadow-sm text-center py-4 group/slide hover:border-slate-200 bg-white flex items-center gap-3 justify-center"
                 key={index}
               >
                 <img
@@ -121,9 +129,8 @@ const LandingPage = () => {
           </p>
           <p className="mt-6 text-lg leading-8 text-gray-800 text-justify sm:text-center">
             Discover diverse topics from sports to tech and beyond in our
-            engaging <b className="text-indigo-600">blogs</b>, Lighten up your
-            day with our quick-witted <b className="text-indigo-600">jokes</b>
-            collection, Inspiration awaits! Explore our curated{" "}
+            engaging <b className="text-indigo-600">blogs</b>, Inspiration
+            awaits! Explore our curated{" "}
             <b className="text-indigo-600">quotes</b> for daily motivation.
           </p>
         </div>
@@ -132,7 +139,7 @@ const LandingPage = () => {
             {primaryFeatures.map((feature, index) => (
               <li
                 key={index}
-                className="flex flex-col shadow-sm border rounded-md p-3 bg-white space-y-3"
+                className="flex flex-col shadow-sm border rounded-md p-3 bg-gray-50 space-y-3"
               >
                 <dt className="text-20size font-semibold leading-7 text-slate-900">
                   <div className="mb-2 flex h-16 w-16 items-center justify-center rounded-xl bg-slate-50">
@@ -164,13 +171,13 @@ const LandingPage = () => {
       </div>
       <div className="my-16 sm:my-24 space-y-2">
         <h2 className="mt-2 text-3xl font-bold tracking-tight text-black sm:text-4xl text-center">
-          Explore Blogs by Category
+          Explore Quotes by Topics
         </h2>
         <div className="embla py-6" ref={emblaRef2}>
           <div className="embla__container">
-            {categoryOptions.map((category, index) => (
+            {quotesTopics.map((category, index) => (
               <div
-                className="embla__slide border rounded-md shadow-sm text-center py-4 group/slide hover:border-slate-200 hover:bg-slate-50 flex items-center gap-3 justify-center"
+                className="embla__slide border rounded-md shadow-sm text-center py-4 group/slide hover:border-slate-200 bg-white flex items-center gap-3 justify-center"
                 key={index}
               >
                 <img

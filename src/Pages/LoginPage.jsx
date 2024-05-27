@@ -7,6 +7,7 @@ import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { Eye, EyeOff, LoaderCircle } from "lucide-react";
+import { Helmet } from "react-helmet";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -43,6 +44,10 @@ const LoginPage = () => {
 
   return (
     <div className="h-screen bg-blue-50 form-shadow">
+      <Helmet>
+        <title>My Title</title>
+        <meta name="description" content="Helmet application" />
+      </Helmet>
       <div className="flex items-center justify-center h-full">
         <div className="bg-white border rounded-md border-borderColor space-y-4 p-4 w-96">
           <div className="flex flex-col items-center justify-center">

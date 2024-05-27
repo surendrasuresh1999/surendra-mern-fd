@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const navigation = {
   main: [
-    { name: "About", href: "#" },
-    { name: "Blog", href: "#" },
-    { name: "Jobs", href: "#" },
-    { name: "Press", href: "#" },
-    { name: "Accessibility", href: "#" },
-    { name: "Partners", href: "#" },
+    { name: "Blogs", path: "/blogs" },
+    { name: "Quotes", path: "/quotes" },
+    { name: "Authors", path: "/authors" },
   ],
   social: [
     {
@@ -76,7 +73,6 @@ const navigation = {
 };
 
 const Footer = () => {
-
   return (
     <footer className={`bg-gray-900 relative`}>
       <div className="mx-auto container overflow-hidden px-6 py-10 sm:py-14 lg:px-8">
@@ -86,9 +82,9 @@ const Footer = () => {
         >
           {navigation.main.map((item) => (
             <div key={item.name} className="pb-6">
-              <a href={item.href} className="text-sm leading-6 text-white">
+              <Link to={item.path} className="text-sm leading-6 text-white">
                 {item.name}
-              </a>
+              </Link>
             </div>
           ))}
         </nav>
@@ -104,7 +100,6 @@ const Footer = () => {
           &copy; 2020 Your Company, Inc. All rights reserved.
         </p>
       </div>
-     
     </footer>
   );
 };

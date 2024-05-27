@@ -10,6 +10,7 @@ import { context } from "./CommonPage";
 import NoDataFound from "../Common/NoDataFoun";
 import ConnectionLost from "../Common/ConnectionLost";
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
 
 const AuthorsPage = () => {
   const mode = useContext(context);
@@ -30,6 +31,13 @@ const AuthorsPage = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>Meet Our Talented Authors</title>
+        <meta
+          name="description"
+          content="Explore the minds behind the inspiration."
+        />
+      </Helmet>
       {isPending ? (
         <Loader />
       ) : error ? (

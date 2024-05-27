@@ -18,6 +18,7 @@ import { HeartIcon, TrashIcon } from "@heroicons/react/24/outline";
 import numeral from "numeral";
 import { SquarePenIcon } from "lucide-react";
 import swal from "sweetalert";
+import { Helmet } from "react-helmet";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -26,7 +27,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 const QuotesPage = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [ediatable, setEdiatable] = useState(false);
-  const [quoteObj, setQuoteObj] = useState({ quote: "", author: "" });
+  const [quoteObj, setQuoteObj] = useState({ quote: "", author: "", tags: "" });
   const [quoteId, setQuoteId] = useState("");
   const userDetails = JSON.parse(localStorage.getItem("blogUserDetails"));
   const [searchedString, setSearchedString] = useState("");
@@ -34,10 +35,15 @@ const QuotesPage = () => {
   const queryClient = useQueryClient();
 
   const handleCreateQuote = () => {
-    if (quoteObj.author !== "" && quoteObj.quote !== "") {
+    if (
+      quoteObj.author !== "" &&
+      quoteObj.quote !== "" &&
+      quoteObj.tags !== ""
+    ) {
       const data = {
         author: quoteObj.author,
         quote: quoteObj.quote,
+        categoryTag: quoteObj.tags,
       };
       axios
         .post(`${Baseurl.baseurl}/api/quote`, data, {
@@ -60,7 +66,7 @@ const QuotesPage = () => {
           toast.error(err.message);
         });
     } else {
-      toast.error("Two fields must be non-empty");
+      toast.error("All fields must be non-empty");
     }
   };
 
@@ -69,8 +75,13 @@ const QuotesPage = () => {
       const data = {
         author: quoteObj.author,
         quote: quoteObj.quote,
+        tags: quoteObj.tags,
       };
-      if (quoteObj.author !== "" && quoteObj.quote !== "") {
+      if (
+        quoteObj.author !== "" &&
+        quoteObj.quote !== "" &&
+        quoteObj.tags !== ""
+      ) {
         axios
           .put(`${Baseurl.baseurl}/api/quote/${quoteId}`, data, {
             headers: {
@@ -112,7 +123,7 @@ const QuotesPage = () => {
           <span className="font-700 text-black"> Create new Quote</span>
         </DialogTitle>
         <DialogContent dividers={true}>
-          <div className="space-y-4">
+          <div className="space-y-3">
             <div className="flex flex-col gap-1">
               <label
                 htmlFor="author"
@@ -145,12 +156,30 @@ const QuotesPage = () => {
                 onChange={(e) =>
                   setQuoteObj({ ...quoteObj, quote: e.target.value })
                 }
-                rows={6}
+                rows={5}
                 cols={8}
                 style={{ resize: "none" }}
                 placeholder="Type your quote here..."
                 className="rounded-md outline-none"
               ></textarea>
+            </div>
+            <div className="flex flex-col gap-1">
+              <label
+                htmlFor="tags"
+                className={`text-16size sm:text-16size font-500`}
+              >
+                Relation tags
+              </label>
+              <input
+                type="text"
+                value={quoteObj.tags}
+                onChange={(e) =>
+                  setQuoteObj({ ...quoteObj, tags: e.target.value })
+                }
+                id="tags"
+                placeholder="Type tags with comma seperated..."
+                className="outline-none rounded-md"
+              />
             </div>
           </div>
         </DialogContent>
@@ -251,12 +280,25 @@ const QuotesPage = () => {
 
   const filteredQuotes =
     searchedString !== ""
-      ? data.quotes.filter((quote) =>
-          quote.author.toLowerCase().includes(searchedString.toLowerCase())
-        )
+      ? data.quotes.filter((quote) => {
+          const tags = quote?.categoryTag?.split(",");
+          return (
+            quote.author.toLowerCase().includes(searchedString.toLowerCase()) ||
+            tags?.some((tag) =>
+              tag?.trim().toLowerCase().includes(searchedString.toLowerCase())
+            )
+          );
+        })
       : data?.quotes;
   return (
     <>
+      <Helmet>
+        <title>Daily Inspiration Quotes</title>
+        <meta
+          name="description"
+          content="Find uplifting quotes for every moment."
+        />
+      </Helmet>
       <div className="space-y-5">
         <div className="flex justify-between py-2 px-2 gap-3 rounded-md shadow bg-white">
           <div className="grow">
@@ -265,7 +307,7 @@ const QuotesPage = () => {
               onChange={(e) => setSearchedString(e.target.value)}
               type="text"
               className="outline-none w-full rounded-md border text-black"
-              placeholder="Search quote based on author name"
+              placeholder="Search by author name or category tag..."
             />
           </div>
           <button
@@ -346,6 +388,16 @@ const QuotesPage = () => {
                           </button>
                         </div>
                       </div>
+                      {item?.categoryTag?.split(",").map((tag, index) => (
+                        <span
+                          key={index}
+                          className="mr-1 text-indigo-400 font-600 tracking-wide text-14size"
+                        >
+                          #{tag}{" "}
+                          {index !== item?.categoryTag?.split(",").length - 1 &&
+                            ","}
+                        </span>
+                      ))}
                     </div>
                   </li>
                 ))}

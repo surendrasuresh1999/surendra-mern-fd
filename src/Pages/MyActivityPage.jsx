@@ -11,6 +11,7 @@ import { PlusCircleIcon } from "lucide-react";
 import swal from "sweetalert";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import CreateBlogDialog from "../Components/CreateBlogDialog";
+import { Helmet } from "react-helmet";
 
 const MyActivityPage = () => {
   const [isOpenDialog, setIsOpenDialog] = useState(false);
@@ -99,6 +100,10 @@ const MyActivityPage = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>My Title</title>
+        <meta name="description" content="Helmet application" />
+      </Helmet>
       {isPending ? (
         <Loader />
       ) : error ? (
