@@ -37,20 +37,15 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="h-screen bg-blue-50 form-shadow">
+    <div className="h-dvh bg-blue-50 form-shadow">
       <Helmet>
         <title>My Title</title>
         <meta name="description" content="Helmet application" />
       </Helmet>
       <div className="flex items-center justify-center h-full">
-        <div className="bg-white border rounded-md border-borderColor space-y-2 p-4 w-96">
+        <div className="bg-white border rounded-md border-borderColor space-y-2 p-4 m-4 w-96">
           <div className="flex flex-col items-center justify-center">
-            {/* <img
-              className="h-10 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              alt="Your Company"
-            /> */}
-            <h2 className="text-26size font-bold leading-9 tracking-tight text-gray-900">
+            <h2 className="text-22size sm:text-26size font-bold leading-9 tracking-tight text-gray-900">
               Sign in to your account
             </h2>
           </div>

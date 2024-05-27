@@ -43,15 +43,15 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="h-screen bg-blue-50 form-shadow">
+    <div className="h-dvh bg-blue-50 form-shadow">
       <Helmet>
         <title>My Title</title>
         <meta name="description" content="Helmet application" />
       </Helmet>
       <div className="flex items-center justify-center h-full">
-        <div className="bg-white border rounded-md border-borderColor space-y-4 p-4 w-96">
+        <div className="bg-white border rounded-md border-borderColor space-y-4 p-4 m-2 w-96">
           <div className="flex flex-col items-center justify-center">
-            <h2 className="text-26size font-bold leading-9 tracking-tight text-gray-900">
+            <h2 className="text-22size sm:text-26size font-bold leading-9 tracking-tight text-gray-900">
               Login in to your account
             </h2>
           </div>
