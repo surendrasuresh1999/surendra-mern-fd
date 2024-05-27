@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Activity, CircleUserRoundIcon, LogOut } from "lucide-react";
+import { Activity, CircleUserRoundIcon, LogIn, LogOut } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Avatar } from "@mui/material";
@@ -30,12 +30,6 @@ const navbar = [
   },
 ];
 
-const userNavigation = [
-  { name: "My activity", icon: <Activity size={18} /> },
-  { name: "My profile", icon: <CircleUserRoundIcon size={18} /> },
-  { name: "Log out", icon: <LogOut size={18} /> },
-];
-
 const trackRecord = ["blogs", "quotes"];
 
 function classNames(...classes) {
@@ -53,6 +47,15 @@ const Navbar = ({ mode, setter }) => {
   const navigate = useNavigate();
   const jwtToken = Cookies.get("jwtToken");
   const userDetails = JSON.parse(localStorage.getItem("blogUserDetails"));
+
+  const userNavigation = [
+    { name: "My activity", icon: <Activity size={18} /> },
+    { name: "My profile", icon: <CircleUserRoundIcon size={18} /> },
+    {
+      name: userDetails !== null ? "Log out" : "Login",
+      icon: userDetails !== null ? <LogOut size={18} /> : <LogIn size={18} />,
+    },
+  ];
 
   useEffect(() => {
     let source = axios.CancelToken.source();
@@ -222,6 +225,7 @@ const Navbar = ({ mode, setter }) => {
         return null;
     }
   };
+  console.log("userDetails", userDetails);
 
   return (
     <>
@@ -350,18 +354,7 @@ const Navbar = ({ mode, setter }) => {
                         <Avatar>
                           {userDetails?.name?.slice(0, 2).toUpperCase()}
                         </Avatar>
-                        {/* <img
-                          className="h-8 w-8 rounded-full bg-gray-50"
-                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                          alt=""
-                        /> */}
                         <span className="hidden lg:flex lg:items-center">
-                          {/* <span
-                            className="ml-4 text-sm font-semibold leading-6 text-gray-900"
-                            aria-hidden="true"
-                          >
-                            Tom Cook
-                          </span> */}
                           <ChevronDownIcon
                             className="ml-2 h-5 w-5 text-gray-400"
                             aria-hidden="true"
@@ -385,9 +378,13 @@ const Navbar = ({ mode, setter }) => {
                                   href={item.href}
                                   className={classNames(
                                     active ? "bg-gray-50" : "",
-                                    "flex items-center font-500 tracking-wide gap-1.5 px-3 py-1 text-sm leading-6 text-gray-600 cursor-pointer hover:bg-orange-500 hover:text-white"
+                                    `flex items-center font-500 tracking-wide gap-1.5 px-3 py-1 text-sm leading-6 text-gray-600 cursor-pointer hover:bg-orange-500 hover:text-white`
                                   )}
-                                  onClick={() => handleClickMenuItem(index)}
+                                  onClick={() =>
+                                    userDetails !== null
+                                      ? handleClickMenuItem(index)
+                                      : navigate("/login")
+                                  }
                                 >
                                   {item.icon}
                                   {item.name}
