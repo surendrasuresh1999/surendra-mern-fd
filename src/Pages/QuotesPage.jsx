@@ -329,7 +329,7 @@ const QuotesPage = () => {
           </div>
           <button
             onClick={() => setOpenDialog(true)}
-            className="rounded-md bg-indigo-50  px-3 py-2 text-sm font-semibold text-indigo-600 border border-indigo-400 shadow-sm hover:bg-indigo-100 flex items-center gap-1"
+            className="rounded-md bg-indigo-50 px-3 py-2 flex-shrink-0 text-sm font-semibold text-indigo-600 border border-indigo-400 shadow-sm hover:bg-indigo-100 flex items-center gap-1"
           >
             Create Quote
           </button>
