@@ -14,12 +14,12 @@ export const userSignUpSchema = Yup.object().shape({
 
 export const passwordChangeSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
-  password: Yup.string()
-    .required("Password is required")
-    .min(8, "Password must be at least 8 characters")
+  newPassword: Yup.string()
+    .required("New password is required")
+    .min(8, "New password must be at least 8 characters")
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+      "New password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
     ),
   confirmPassword: Yup.string()
     .required("Confirm Password is required")

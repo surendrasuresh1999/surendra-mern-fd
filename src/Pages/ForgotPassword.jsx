@@ -11,7 +11,7 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
   const userObject = {
     email: "",
-    password: "",
+    newPassword: "",
     confirmPassword: "",
   };
   const [showPassword, setShowPassword] = useState(false);
@@ -90,7 +90,7 @@ const ForgotPassword = () => {
                       </Field>
                     ) : (
                       <Field
-                        type={key}
+                        type={key === "newPassword" ? "password" : key}
                         name={key}
                         placeholder={`Enter ${key}`}
                         className="grow rounded-md border"
