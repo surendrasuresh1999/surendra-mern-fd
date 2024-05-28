@@ -225,7 +225,6 @@ const Navbar = ({ mode, setter }) => {
         return null;
     }
   };
-  console.log("userDetails", userDetails);
 
   return (
     <>
