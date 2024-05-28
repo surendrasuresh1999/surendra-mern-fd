@@ -44,35 +44,34 @@ const BlogCard = ({ blog, showDeleteBtn, handler }) => {
         }
       />
       <CardMedia sx={{ height: 200 }} image={blog.imageUrl} />
-      <CardContent sx={{ height: 180 }}>
+      <CardContent className="flex flex-col">
         <Typography
           gutterBottom
           variant="h5"
           component="h1"
-          className="truncate text-black"
+          className="truncate text-black !mb-0"
         >
           {blog.title.charAt(0).toUpperCase() + blog.title.slice(1)}
         </Typography>
-        <div>
+        <div className="dangers">
           <div
-            className="dangers"
             dangerouslySetInnerHTML={{
               __html: blog?.discription,
             }}
           />
         </div>
+        <div className="flex mt-2 items-center justify-between">
+          <Link
+            to={`${blog._id}`}
+            className="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100"
+          >
+            Read More
+          </Link>
+          <button className="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">
+            {blog.categorey}
+          </button>
+        </div>
       </CardContent>
-      <CardActions className="flex items-center justify-between">
-        <Link
-          to={`${blog._id}`}
-          className="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100"
-        >
-          Read More
-        </Link>
-        <button className="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">
-          {blog.categorey}
-        </button>
-      </CardActions>
     </Card>
   );
 };
