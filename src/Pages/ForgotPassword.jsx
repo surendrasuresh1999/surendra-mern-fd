@@ -21,9 +21,11 @@ const ForgotPassword = () => {
       .put(`${Baseurl.baseurl}/api/user/update-password`, values)
       .then((res) => {
         if (res.data.status) {
-          navigate("/login");
           toast.success(res.data.message);
           actions.resetForm();
+          setTimeout(() => {
+            navigate("/login");
+          }, 2000);
         } else {
           toast.error(res.data.message);
           console.log("res", res);
