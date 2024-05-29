@@ -73,16 +73,18 @@ const BlogsPage = () => {
         <title>Explore Captivating Blogs</title>
         <meta name="description" content="Discover a spectrum of topics." />
       </Helmet>
-      <div className="flex justify-end py-2 px-2 gap-3 rounded-md shadow bg-white">
-        <CategoryDropDown
-          category={selected}
-          setCategory={setSelected}
-          showLastOption={true}
-        />
+      <div className="flex py-2 px-2 gap-3 rounded-md shadow bg-white">
+        <div className="w-36 sm:w-52">
+          <CategoryDropDown
+            category={selected}
+            setCategory={setSelected}
+            showLastOption={true}
+          />
+        </div>
         <button
           onClick={() => setIsOpenDialog(true)}
           type="button"
-          className="rounded-md bg-indigo-50  px-3 py-2 text-sm font-semibold text-indigo-600 border border-indigo-400 shadow-sm hover:bg-indigo-100 flex items-center gap-1"
+          className="rounded-md grow sm:grow-0 bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 border border-indigo-400 shadow-sm hover:bg-indigo-100"
         >
           Create blog
         </button>

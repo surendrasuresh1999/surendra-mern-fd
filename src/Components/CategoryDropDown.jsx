@@ -5,7 +5,7 @@ import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
 const CategoryDropDown = ({ category, setCategory, showLastOption }) => {
   return (
-    <div className="w-56 grow sm:grow-0">
+    <div className="">
       <Listbox
         value={category}
         onChange={(e) => {
@@ -17,7 +17,7 @@ const CategoryDropDown = ({ category, setCategory, showLastOption }) => {
         }}
       >
         <div className="relative ">
-          <Listbox.Button className="relative w-full sm:min-w-48 cursor-default rounded-md bg-indigo-50 border border-indigo-400 py-2.5 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+          <Listbox.Button className="relative w-full cursor-default rounded-md bg-indigo-50 border border-indigo-400 py-2.5 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
             <span className="block truncate text-indigo-600 font-600 tracking-wide">
               {category === null ? "Choose category" : <>{category.label}</>}
             </span>

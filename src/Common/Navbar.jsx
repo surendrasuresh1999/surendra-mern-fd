@@ -3,7 +3,7 @@ import { Dialog, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Activity, CircleUserRoundIcon, LogIn, LogOut } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { CheckCircleIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Avatar } from "@mui/material";
 import ReactTimeAgo from "react-time-ago";
 import { Baseurl } from "../BaseUrl";
@@ -311,7 +311,7 @@ const Navbar = ({ mode, setter }) => {
               </button>
 
               {/* Logo */}
-              <div className="ml-4 lg:ml-0">
+              <div className="ml-4 lg:ml-0 hidden sm:block">
                 <Link to="/">
                   <span className="sr-only">Your Company</span>
                   <img
@@ -344,58 +344,69 @@ const Navbar = ({ mode, setter }) => {
                 ))}
               </ul>
 
-              <div className="ml-auto">
-                <div className="flex items-center gap-4">
-                  <div className="">
-                    <Menu as="div" className="relative">
-                      <Menu.Button className="-m-1.5 flex items-center p-1.5">
-                        <span className="sr-only">Open user menu</span>
-                        <Avatar>
-                          {userDetails?.name?.slice(0, 2).toUpperCase()}
-                        </Avatar>
-                        <span className="hidden lg:flex lg:items-center">
-                          <ChevronDownIcon
-                            className="ml-2 h-5 w-5 text-gray-400"
-                            aria-hidden="true"
-                          />
-                        </span>
-                      </Menu.Button>
-                      <Transition
-                        as={Fragment}
-                        enter="transition ease-out duration-100"
-                        enterFrom="transform opacity-0 scale-95"
-                        enterTo="transform opacity-100 scale-100"
-                        leave="transition ease-in duration-75"
-                        leaveFrom="transform opacity-100 scale-100"
-                        leaveTo="transform opacity-0 scale-95"
-                      >
-                        <Menu.Items className="absolute right-0 z-10 mt-2.5 w-36 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                          {userNavigation.map((item, index) => (
-                            <Menu.Item key={item.name}>
-                              {({ active }) => (
-                                <span
-                                  href={item.href}
-                                  className={classNames(
-                                    active ? "bg-gray-50" : "",
-                                    `flex items-center font-500 tracking-wide gap-1.5 px-3 py-1 text-sm leading-6 text-gray-600 cursor-pointer hover:bg-orange-500 hover:text-white`
-                                  )}
-                                  onClick={() =>
-                                    userDetails !== null
-                                      ? handleClickMenuItem(index)
-                                      : navigate("/login")
-                                  }
-                                >
-                                  {item.icon}
-                                  {item.name}
-                                </span>
-                              )}
-                            </Menu.Item>
-                          ))}
-                        </Menu.Items>
-                      </Transition>
-                    </Menu>
+              <div className="ml-auto flex items-center">
+                {userDetails === null ? (
+                  <button
+                    onClick={() => navigate("/login")}
+                    type="button"
+                    className="inline-flex items-center gap-x-1.5 rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    <LogIn className="-ml-0.5 h-5 w-5" aria-hidden="true" />
+                    Login
+                  </button>
+                ) : (
+                  <div className="flex items-center gap-4">
+                    <div className="">
+                      <Menu as="div" className="relative">
+                        <Menu.Button className="-m-1.5 flex items-center p-1.5">
+                          <span className="sr-only">Open user menu</span>
+                          <Avatar>
+                            {userDetails?.name?.slice(0, 2).toUpperCase()}
+                          </Avatar>
+                          <span className="hidden lg:flex lg:items-center">
+                            <ChevronDownIcon
+                              className="ml-2 h-5 w-5 text-gray-400"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        </Menu.Button>
+                        <Transition
+                          as={Fragment}
+                          enter="transition ease-out duration-100"
+                          enterFrom="transform opacity-0 scale-95"
+                          enterTo="transform opacity-100 scale-100"
+                          leave="transition ease-in duration-75"
+                          leaveFrom="transform opacity-100 scale-100"
+                          leaveTo="transform opacity-0 scale-95"
+                        >
+                          <Menu.Items className="absolute right-0 z-10 mt-2.5 w-36 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
+                            {userNavigation.map((item, index) => (
+                              <Menu.Item key={item.name}>
+                                {({ active }) => (
+                                  <span
+                                    href={item.href}
+                                    className={classNames(
+                                      active ? "bg-gray-50" : "",
+                                      `flex items-center font-500 tracking-wide gap-1.5 px-3 py-1 text-sm leading-6 text-gray-600 cursor-pointer hover:bg-orange-500 hover:text-white`
+                                    )}
+                                    onClick={() =>
+                                      userDetails !== null
+                                        ? handleClickMenuItem(index)
+                                        : navigate("/login")
+                                    }
+                                  >
+                                    {item.icon}
+                                    {item.name}
+                                  </span>
+                                )}
+                              </Menu.Item>
+                            ))}
+                          </Menu.Items>
+                        </Transition>
+                      </Menu>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
