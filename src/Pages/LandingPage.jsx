@@ -1,42 +1,13 @@
-import { categoryOptions, quotesTopics } from "../StaticData";
+import { categoryOptions, primaryFeatures, quotesTopics } from "../StaticData";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { useEffect } from "react";
 import AutoScroll from "embla-carousel-auto-scroll";
-import blogImg from "../assets/books.png";
-import jokeImg from "../assets/laughing.png";
-import quoteImg from "../assets/fountain-pen.png";
-import authorImg from "../assets/writer.png";
+
 import { Link } from "react-router-dom";
 import landingPageImg from "../assets/landingPageBanner.jpg";
 import { Helmet } from "react-helmet";
 
-const primaryFeatures = [
-  {
-    name: "Blogosphere",
-    description:
-      "Explore a diverse collection of thought-provoking blogs covering a wide range of topics. From technology to lifestyle, our blog page offers a blend of informative articles, personal reflections, and expert opinions to satisfy every reader's curiosity.",
-    href: "#",
-    icon: blogImg,
-    path: "/blogs",
-  },
-  {
-    name: "Quote Corner",
-    description:
-      "Seeking inspiration and motivation? Discover profound wisdom and timeless truths on our quotes page. Immerse yourself in a collection of insightful quotes from renowned thinkers, philosophers, and visionaries, empowering you to embrace life's journey with courage and optimism.",
-    href: "#",
-    icon: quoteImg,
-    path: "/quotes",
-  },
-  {
-    name: "Meet Our Authors",
-    description:
-      "Meet the brilliant minds behind our captivating content! Our authors page introduces you to a talented community of writers, each with a unique voice and perspective. From seasoned professionals to emerging talents, explore the diverse backgrounds and literary styles of our esteemed authors.",
-    href: "#",
-    icon: authorImg,
-    path: "/authors",
-  },
-];
 
 const LandingPage = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
@@ -91,7 +62,7 @@ const LandingPage = () => {
           </p>
         </div>
         <div className="hidden lg:block">
-          <img src={landingPageImg} alt="banner" className=" rounded-md" />
+          <img src={landingPageImg} alt="banner" className="rounded-md" />
         </div>
       </div>
       <div className="my-16 sm:my-24 space-y-2">
@@ -107,7 +78,7 @@ const LandingPage = () => {
               >
                 <img
                   src={category.img}
-                  alt=""
+                  alt="blog-slider"
                   className="h-8 w-8 sm:h-12 sm:w-12"
                 />
                 <span className="text-gray-900 group-hover/slide:text-slate-900 group-hover/slide:scale-100 font-700 tracking-wide text-14size sm:text-24size">
@@ -178,7 +149,7 @@ const LandingPage = () => {
               >
                 <img
                   src={category.img}
-                  alt=""
+                  alt="slider-img"
                   className="h-8 w-8 sm:h-12 sm:w-12"
                 />
                 <span className="text-gray-900 group-hover/slide:text-slate-900 group-hover/slide:scale-100 font-700 tracking-wide text-14size sm:text-24size">

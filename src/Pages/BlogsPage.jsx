@@ -53,11 +53,9 @@ const BlogsPage = () => {
           setIsOpenDialog(false);
         } else {
           toast.error(res.data.message);
-          queryClient.invalidateQueries("blogsData");
         }
       })
       .catch((err) => {
-        queryClient.invalidateQueries("blogsData");
         console.log("Error", err.message);
         toast.error(err.message);
       });

@@ -15,7 +15,6 @@ import { Helmet } from "react-helmet";
 
 const MyActivityPage = () => {
   const [isOpenDialog, setIsOpenDialog] = useState(false);
-  const [selected, setSelected] = useState(null);
   const jwtToken = Cookies.get("jwtToken");
   const queryClient = useQueryClient();
 

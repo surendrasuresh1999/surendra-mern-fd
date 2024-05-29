@@ -10,6 +10,9 @@ import inspiration from "../assets/inspiration.png";
 import knowledge from "../assets/knowledge-base.png";
 import motivation from "../assets/motivation (1).png";
 import Other from "../assets/other.png";
+import blogImg from "../assets/books.png";
+import quoteImg from "../assets/fountain-pen.png";
+import authorImg from "../assets/writer.png";
 
 export const indianStatesArray = [
   "Andaman and Nicobar Islands",
@@ -150,5 +153,32 @@ export const quotesTopics = [
     value: "07",
     label: "Other",
     img: Other,
+  },
+];
+
+export const primaryFeatures = [
+  {
+    name: "Blogosphere",
+    description:
+      "Explore a diverse collection of thought-provoking blogs covering a wide range of topics. From technology to lifestyle, our blog page offers a blend of informative articles, personal reflections, and expert opinions to satisfy every reader's curiosity.",
+    href: "#",
+    icon: blogImg,
+    path: "/blogs",
+  },
+  {
+    name: "Quote Corner",
+    description:
+      "Seeking inspiration and motivation? Discover profound wisdom and timeless truths on our quotes page. Immerse yourself in a collection of insightful quotes from renowned thinkers, philosophers, and visionaries, empowering you to embrace life's journey with courage and optimism.",
+    href: "#",
+    icon: quoteImg,
+    path: "/quotes",
+  },
+  {
+    name: "Meet Our Authors",
+    description:
+      "Meet the brilliant minds behind our captivating content! Our authors page introduces you to a talented community of writers, each with a unique voice and perspective. From seasoned professionals to emerging talents, explore the diverse backgrounds and literary styles of our esteemed authors.",
+    href: "#",
+    icon: authorImg,
+    path: "/authors",
   },
 ];
