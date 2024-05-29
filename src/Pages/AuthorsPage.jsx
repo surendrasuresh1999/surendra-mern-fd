@@ -15,6 +15,7 @@ import { Helmet } from "react-helmet";
 const AuthorsPage = () => {
   const mode = useContext(context);
   const jwtToken = Cookies.get("jwtToken");
+  const userDetails = JSON.parse(localStorage.getItem("blogUserDetails"));
 
   const getAllAuthors = async () => {
     return await fetch(`${Baseurl.baseurl}/api/user/all`, {
@@ -60,7 +61,7 @@ const AuthorsPage = () => {
                 </Avatar>
               </div>
               <div className="min-w-0 flex-1">
-                <div className="focus:outline-none">
+                <div>
                   <span className="absolute inset-0" aria-hidden="true" />
                   <p
                     className={`text-20size font-medium ${
@@ -75,7 +76,11 @@ const AuthorsPage = () => {
                       mode ? "text-gray-200" : "text-gray-500"
                     } `}
                   >
-                    {person.email}
+                    {userDetails._id === person._id
+                      ? person.email
+                      : `${"x".repeat(person.email.split("@")[0].length)}@${
+                          person.email.split("@")[1]
+                        }`}
                   </p>
                   <p className={`text-sm text-slate-500 tracking-wide`}>
                     Joined{" "}
