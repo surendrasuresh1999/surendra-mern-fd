@@ -49,10 +49,10 @@ const LoginPage = () => {
         <meta name="description" content="Helmet application" />
       </Helmet>
       <div className="flex items-center justify-center h-full">
-        <div className="bg-white border rounded-md border-borderColor space-y-4 p-4 m-2 w-96">
+        <div className="bg-white border rounded-md border-borderColor space-y-4 p-4 m-4 w-96">
           <div className="flex flex-col items-center justify-center">
             <h2 className="text-22size sm:text-26size font-bold leading-9 tracking-tight text-gray-900">
-              Login in to your account
+              Login in your account
             </h2>
           </div>
           <Formik
@@ -76,7 +76,7 @@ const LoginPage = () => {
                         {({
                           field /* { name, value, onChange, onBlur } */,
                         }) => (
-                          <div className="relative mt-2 rounded-md shadow-sm">
+                          <div className="relative rounded-md shadow-sm">
                             <input
                               {...field}
                               type={showPassword ? "text" : "password"}
@@ -109,13 +109,18 @@ const LoginPage = () => {
                       name={key}
                       render={(msg) => (
                         <p className="text-red-600 font-500 tracking-wide text-12size">
-                          **{msg}
+                          {msg}
                         </p>
                       )}
                     />
                     {key === "password" && (
                       <p className="text-14size text-gray-900 text-right font-600 tracking-wide mt-1">
-                        <Link to="/forgot-password">Forgot Password?</Link>
+                        <Link
+                          to="/forgot-password"
+                          className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+                        >
+                          Forgot Password?
+                        </Link>
                       </p>
                     )}
                   </div>

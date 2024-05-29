@@ -45,7 +45,7 @@ const ForgotPassword = () => {
         <div className="bg-white border rounded-md border-borderColor space-y-4 p-4 m-4 w-96">
           <div className="flex flex-col items-center justify-center">
             <h2 className="text-22size sm:text-26size font-bold leading-9 tracking-tight text-gray-900">
-              Reset your password
+              Reset password
             </h2>
           </div>
           <Formik
@@ -100,7 +100,7 @@ const ForgotPassword = () => {
                       name={key}
                       render={(msg) => (
                         <p className="text-red-600 font-500 tracking-wide text-12size">
-                          **{msg}
+                          {msg}
                         </p>
                       )}
                     />
