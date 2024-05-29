@@ -41,6 +41,10 @@ const ForgotPassword = () => {
 
   return (
     <div className="h-dvh bg-blue-50 form-shadow">
+      <Helmet>
+        <title>Reset password</title>
+        <meta name="description" content="Reset password" />
+      </Helmet>
       <div className="flex items-center justify-center h-full">
         <div className="bg-white border rounded-md border-borderColor space-y-4 p-4 m-4 w-96">
           <div className="flex flex-col items-center justify-center">

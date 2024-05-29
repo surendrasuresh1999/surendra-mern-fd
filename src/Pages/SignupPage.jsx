@@ -39,8 +39,8 @@ const SignupPage = () => {
   return (
     <div className="h-dvh bg-blue-50 form-shadow">
       <Helmet>
-        <title>My Title</title>
-        <meta name="description" content="Helmet application" />
+        <title>Signup</title>
+        <meta name="description" content="Register your details with us" />
       </Helmet>
       <div className="flex items-center justify-center h-full">
         <div className="bg-white border rounded-md border-borderColor space-y-2 p-4 m-4 w-96">
