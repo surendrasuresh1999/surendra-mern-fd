@@ -99,10 +99,6 @@ const MyActivityPage = () => {
       });
   };
 
-  if (data && data.status === 401) {
-    return <Navigate to={"/login"} state={{ from: location }} replace />;
-  }
-
   return (
     <div>
       <Helmet>
@@ -116,6 +112,8 @@ const MyActivityPage = () => {
         <Loader />
       ) : error ? (
         <ConnectionLost />
+      ) : data && data.status === 401 ? (
+        <Navigate to={"/login"} state={{ from: location }} replace />
       ) : data.posts?.length > 0 ? (
         <ul
           role="list"

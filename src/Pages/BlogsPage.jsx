@@ -63,10 +63,6 @@ const BlogsPage = () => {
       });
   };
 
-  if (data && data.status === 401) {
-    return <Navigate to={"/login"} state={{ from: location }} replace />;
-  }
-
   const filteredRecords = selected
     ? data?.posts.filter((post) => post.categorey === selected.label)
     : data?.posts;
@@ -98,6 +94,8 @@ const BlogsPage = () => {
           <Loader />
         ) : error ? (
           <ConnectionLost />
+        ) : data && data.status === 401 ? (
+          <Navigate to={"/login"} state={{ from: location }} replace />
         ) : filteredRecords?.length > 0 ? (
           <ul
             role="list"

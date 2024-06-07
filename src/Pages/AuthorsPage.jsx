@@ -32,10 +32,6 @@ const AuthorsPage = () => {
     queryFn: getAllAuthors,
   });
 
-  if (data && data.status === 401) {
-    return <Navigate to={"/login"} state={{ from: location }} replace />;
-  }
-
   return (
     <div>
       <Helmet>
@@ -49,6 +45,8 @@ const AuthorsPage = () => {
         <Loader />
       ) : error ? (
         <ConnectionLost />
+      ) : data && data.status === 401 ? (
+        <Navigate to={"/login"} state={{ from: location }} replace />
       ) : data?.length > 0 ? (
         <ul
           role="list"

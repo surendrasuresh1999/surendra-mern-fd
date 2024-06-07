@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Activity, CircleUserRoundIcon, LogIn, LogOut } from "lucide-react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { CheckCircleIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Avatar } from "@mui/material";
 import ReactTimeAgo from "react-time-ago";
@@ -78,6 +78,7 @@ const Navbar = ({ mode, setter }) => {
         .catch((err) => {
           console.log("Error", err.message);
           toast.error(err.message);
+          <Navigate to={"/login"} state={{ from: location }} replace />;
         });
     }
     return () => {

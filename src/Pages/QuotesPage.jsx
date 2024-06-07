@@ -297,10 +297,6 @@ const QuotesPage = () => {
       });
   };
 
-  if (data && data.status === 401) {
-    return <Navigate to={"/login"} state={{ from: location }} replace />;
-  }
-
   const filteredQuotes =
     searchedString !== ""
       ? data.quotes.filter((quote) => {
@@ -345,6 +341,8 @@ const QuotesPage = () => {
             <Loader />
           ) : error ? (
             <ConnectionLost />
+          ) : data && data.status === 401 ? (
+            <Navigate to={"/login"} state={{ from: location }} replace />
           ) : filteredQuotes.length > 0 ? (
             <div className="overflow-hidden rounded-md bg-white shadow space-y-3">
               <ul role="list" className="divide-y divide-gray-200">
