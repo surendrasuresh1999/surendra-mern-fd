@@ -12,11 +12,13 @@ import swal from "sweetalert";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import CreateBlogDialog from "../Components/CreateBlogDialog";
 import { Helmet } from "react-helmet";
+import { Navigate, useLocation } from "react-router-dom";
 
 const MyActivityPage = () => {
   const [isOpenDialog, setIsOpenDialog] = useState(false);
   const jwtToken = Cookies.get("jwtToken");
   const queryClient = useQueryClient();
+  const location = useLocation();
 
   const getAllUSerBlogPosts = async () => {
     return await fetch(`${Baseurl.baseurl}/api/blog/user`, {
@@ -96,6 +98,10 @@ const MyActivityPage = () => {
         toast.error(err.message);
       });
   };
+
+  if (data && data.status === 401) {
+    return <Navigate to={"/login"} state={{ from: location }} replace />;
+  }
 
   return (
     <div>

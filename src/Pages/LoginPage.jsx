@@ -26,7 +26,7 @@ const LoginPage = () => {
             "blogUserDetails",
             JSON.stringify(res.data.user)
           );
-          Cookies.set("jwtToken", res.data.token, { expires: 30 });
+          Cookies.set("jwtToken", res.data.token, { expires: 120 });
           navigate("/");
           actions.resetForm();
         } else {

@@ -13,10 +13,12 @@ import CategoryDropDown from "../Components/CategoryDropDown";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import ConnectionLost from "../Common/ConnectionLost";
 import { Helmet } from "react-helmet";
+import { Navigate, useLocation } from "react-router-dom";
 
 const BlogsPage = () => {
   const [isOpenDialog, setIsOpenDialog] = useState(false);
   const [selected, setSelected] = useState(null);
+  const location = useLocation();
   const jwtToken = Cookies.get("jwtToken");
   const queryClient = useQueryClient();
 
@@ -61,6 +63,10 @@ const BlogsPage = () => {
       });
   };
 
+  if (data && data.status === 401) {
+    return <Navigate to={"/login"} state={{ from: location }} replace />;
+  }
+
   const filteredRecords = selected
     ? data?.posts.filter((post) => post.categorey === selected.label)
     : data?.posts;
@@ -92,7 +98,7 @@ const BlogsPage = () => {
           <Loader />
         ) : error ? (
           <ConnectionLost />
-        ) : filteredRecords.length > 0 ? (
+        ) : filteredRecords?.length > 0 ? (
           <ul
             role="list"
             className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"

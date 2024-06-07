@@ -19,6 +19,7 @@ import numeral from "numeral";
 import { LoaderCircle, SquarePenIcon } from "lucide-react";
 import swal from "sweetalert";
 import { Helmet } from "react-helmet";
+import { Navigate, useLocation } from "react-router-dom";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -34,6 +35,7 @@ const QuotesPage = () => {
   const [searchedString, setSearchedString] = useState("");
   const jwtToken = Cookies.get("jwtToken");
   const queryClient = useQueryClient();
+  const location = useLocation();
 
   const handleCreateQuote = () => {
     if (
@@ -294,6 +296,10 @@ const QuotesPage = () => {
         toast.error(error.message);
       });
   };
+
+  if (data && data.status === 401) {
+    return <Navigate to={"/login"} state={{ from: location }} replace />;
+  }
 
   const filteredQuotes =
     searchedString !== ""

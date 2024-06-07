@@ -11,10 +11,12 @@ import NoDataFound from "../Common/NoDataFoun";
 import ConnectionLost from "../Common/ConnectionLost";
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet";
+import { Navigate, useLocation } from "react-router-dom";
 
 const AuthorsPage = () => {
   const mode = useContext(context);
   const jwtToken = Cookies.get("jwtToken");
+  const location = useLocation();
   const userDetails = JSON.parse(localStorage.getItem("blogUserDetails"));
 
   const getAllAuthors = async () => {
@@ -29,6 +31,10 @@ const AuthorsPage = () => {
     queryKey: ["authorsData"],
     queryFn: getAllAuthors,
   });
+
+  if (data && data.status === 401) {
+    return <Navigate to={"/login"} state={{ from: location }} replace />;
+  }
 
   return (
     <div>
